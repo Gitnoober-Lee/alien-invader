@@ -1,0 +1,11 @@
+.boss {
+    width: 3vb;
+    height: 3vh;   
+    background-color: greenyellow;
+    border-radius: 50%;
+    border-style: solid; 
+    font-size: xx-small;  
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}

@@ -1,3 +1,5 @@
+import "./Boss.css";
+
 export default function Boss() {
-    return <div>GameRecords</div>;
+    return <div className="boss">Boss</div>;
   }
