@@ -2,13 +2,25 @@
   margin: 0;
 }
 
-.col1 {
-  background-color: aquamarine;
+.col1 { 
   width: 20%;
   height: 100vh;
   float: left;
   display: inline-block;
   position: relative;
+  background-image: url("https://th.bing.com/th/id/OIP.zNCZ7BtmuQ7V1yuODfs0sAHaJo?rs=1&pid=ImgDetMain");
+  background-repeat: no-repeat;
+  background-size:cover;
+  align-items: center;
+  text-align: center;
+  font-size: 3rem;
+  opacity: 0.8;
+}
+
+.col1 p {
+  position: relative;
+  top: 5vh;
+  left: 3vh;
 }
 
 .col2 {
@@ -29,22 +41,33 @@
   position: relative;
 }
 
+
+
 .title {
   height: 5vh;
   width: 100%; 
   text-align: center;  
   position: relative; 
   display: table;
+  background-image: url("https://th.bing.com/th/id/OIP.R8zAc4pCR6A4Y5IhmdXiVwHaEK?rs=1&pid=ImgDetMain");
+  background-repeat: no-repeat;
+  background-size:cover;
+  opacity: 0.4;
+  
 }
 
 .title p{ 
   display: table-cell;
   vertical-align: middle;
   position: relative;
+  color:white;
+  font-size: xx-large;
 }
 
 .game {
-  background-color: lightgoldenrodyellow;
+  background-image: url("https://th.bing.com/th/id/R.7a7b222ed96c328431a6a2283be23262?rik=fdRSHyyDNYKVXg&riu=http%3a%2f%2fwww.pixelstalk.net%2fwp-content%2fuploads%2f2016%2f05%2fSky-Desktop-Backgrounds-Hd-Images.jpg&ehk=CnA60t9Jiqk7Vj4FfOxbZG%2bZwBln%2fT6XJS91Xq9LBLE%3d&risl=&pid=ImgRaw&r=0");
+  background-repeat: no-repeat;
+  background-size: cover;
   height: 95vh;
 }
 
@@ -54,8 +77,11 @@
 }
 
 .gameRecords {
-  background-color: lightgreen;
+  background-image: url("./images/GiGi.png");
+  background-repeat: no-repeat;
+  background-size: cover;
   height: 95vh;
+  opacity: 0.4;
 }
 
 footer {

@@ -1,0 +1,17 @@
+ .enemy{    
+    width: 10vh;
+    height: 10vh;
+    font-size: xx-small;  
+    position: absolute;
+    top: 10vh;
+    display: flex;
+    vertical-align: middle;  
+    justify-content: center; 
+    align-items: center;
+}
+
+.enemy img{
+    width: 10vh;
+    height: 10vh;  
+}
+

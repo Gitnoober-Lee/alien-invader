@@ -6,6 +6,13 @@
     border-style: solid; 
     font-size: xx-small;  
     text-align: center;
-    display: table-cell;
-    vertical-align: middle;
+    display: flex;
+    vertical-align: middle;   
+    justify-content: center; 
+    align-items: center;
+}
+
+.boss img{
+    width: 100vb;
+    height: 25vh;   
 }

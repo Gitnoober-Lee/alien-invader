@@ -19,7 +19,7 @@ function App() {
             <p>Alien Holocaust</p>
           </div>
           <div className="game">
-            <Game/>
+            <Game />
           </div>
         </div>
 
