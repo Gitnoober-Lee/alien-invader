@@ -73,8 +73,9 @@ export default function Game() {
   function handleClickParent(event, type, text) {
     event.preventDefault(); // Prevent the default behavior of the click event
     console.log(type + "," + text);   
-    // If click on a Alien
+   
     switch (type) {
+      // If click on a Alien, then update isGuessed and chancesLeft depending on which enemy got hit
       case "Alien":
         setIsGuessed((prevIsGuessed) => {
           const updatedIsGuessed = [...prevIsGuessed];          
