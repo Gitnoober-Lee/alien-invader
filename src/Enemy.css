@@ -11,7 +11,12 @@
 }
 
 .enemy img{
-    width: 10vh;
-    height: 10vh;  
+    width: 7vh;
+    height: 7vh;  
+}
+
+.enemy div {
+    font-size: x-large;
+    color: aqua;
 }
 
