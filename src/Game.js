@@ -33,37 +33,32 @@ export default function Game() {
   const [phrasesLevel5, setPhrasesLevel5] = useState([]);
   const [phrasesLevel6, setPhrasesLevel6] = useState([]);
   const [answerPhrase, setAnswerPhrase] = useState("");
+ 
 
   // Event handler for clicking on NewGame component
   function handleClickNewGame(event) {
     event.preventDefault(); // Prevent the default behavior of the click event
-    setAnswerPhrase(
-      phrasesLevel1[Math.floor(Math.random() * phrasesLevel1.length)]
-    );
+    let randomIndex = Math.floor(Math.random() * phrasesLevel1.length);
+    setAnswerPhrase(phrasesLevel1[randomIndex]);
     setGameStarted(true);
     setEnemies([]);
+    setIsGuessed(Array(26).fill(false));
+    setHiddenPhrase("");   
   }
 
   // Event handler for clicking on Enemy components
   function handleClickParent(event, type, text) {
     event.preventDefault(); // Prevent the default behavior of the click event
-    console.log(type + "," + text);
-
+    console.log(type + "," + text);   
     // If click on a Alien
     switch (type) {
       case "Alien":
-        var isGuessedTmp = isGuessed;
-        var hiddenPhraseTmp = "";
-        isGuessedTmp[characters.indexOf(text)] = true;
-        setIsGuessed(isGuessedTmp);   
-        for (var i = 0; i < answerPhrase.length; i++) {
-          if (isGuessed[characters.indexOf(answerPhrase[i].toUpperCase())] === true || !isLetter(answerPhrase[i])) {
-            hiddenPhraseTmp += answerPhrase[i];
-          } else {
-            hiddenPhraseTmp += "*";
-          }
-        }
-        setHiddenPhrase(hiddenPhraseTmp);
+        setIsGuessed((prevIsGuessed) => {
+          const updatedIsGuessed = [...prevIsGuessed];          
+          updatedIsGuessed[characters.indexOf(text)] = true;
+          return updatedIsGuessed;
+        });        
+       
         break;
       case "Bonus":
         //To be implemented
@@ -76,6 +71,22 @@ export default function Game() {
         break;
     }
   }
+
+  // Use useEffect to update hiddenPhrase after isGuessed is updated
+  useEffect(() => {
+    let hiddenPhraseTmp = "";
+    for (let i = 0; i < answerPhrase.length; i++) {
+      if (
+        isGuessed[characters.indexOf(answerPhrase[i].toUpperCase())] === true ||
+        !isLetter(answerPhrase[i])
+      ) {
+        hiddenPhraseTmp += answerPhrase[i];
+      } else {
+        hiddenPhraseTmp += "*";
+      }
+    }
+    setHiddenPhrase(hiddenPhraseTmp);
+  }, [isGuessed, answerPhrase]);
 
   //Get phrases from file based on levels (easy:1->hard:6)
   useEffect(() => {
@@ -119,7 +130,7 @@ export default function Game() {
 
   //Initialize the hiddenPhrase
   useEffect(() => {
-    var hiddenPhraseTmp = "";
+    let hiddenPhraseTmp = "";
     for (var i = 0; i < answerPhrase.length; i++) {
       if (isLetter(answerPhrase.charAt(i))) {
         hiddenPhraseTmp += "*";
@@ -129,9 +140,6 @@ export default function Game() {
     }
     setHiddenPhrase(hiddenPhraseTmp);
   }, [answerPhrase]);
-
-  // Update hiddenPhrase when the player click on a true enemy that is on the list of answerPhrase
-  useEffect(() => {}, [isGuessed]);
 
   useEffect(() => {
     if (gameStarted) {
