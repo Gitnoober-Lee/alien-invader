@@ -12,6 +12,10 @@ import linesLevel4 from "./phrases/phrases_level4.txt";
 import linesLevel5 from "./phrases/phrases_level5.txt";
 import linesLevel6 from "./phrases/phrases_level6.txt";
 
+function isLetter(c) {
+  return c.toLowerCase() != c.toUpperCase();
+}
+
 export default function Game() {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const [gameStarted, setGameStarted] = useState(false);
@@ -33,8 +37,7 @@ export default function Game() {
   
   function handleClickNewGame(event){
     event.preventDefault(); // Prevent the default behavior of the click event
-    console.log(phrasesLevel1.length);
-    setAnswerPhrase(phrasesLevel1[Math.floor(Math.random() * phrasesLevel1.length)]);
+    setAnswerPhrase(phrasesLevel1[Math.floor(Math.random() * phrasesLevel1.length)]);   
     setGameStarted(true);
     setEnemies([]);
   }
@@ -90,6 +93,18 @@ export default function Game() {
       });      
   }, []);
 
+  //Initialize the hiddenPhrase
+  useEffect(() => {
+    var hiddenPhraseTmp = "";
+    for(var i=0;i<answerPhrase.length;i++){
+      if(isLetter(answerPhrase.charAt(i))){
+        hiddenPhraseTmp+="*";
+      }else{
+        hiddenPhraseTmp+=answerPhrase.charAt(i);
+      }      
+    }
+    setHiddenPhrase(hiddenPhraseTmp);
+  }, [answerPhrase]);
 
   useEffect(() => {    
     if (gameStarted) {
@@ -138,7 +153,8 @@ export default function Game() {
       ))}
       <DefenseNet y={maxHeight}/>
       <Shooter/>
-      {answerPhrase}
+      <div>{answerPhrase}</div>
+      <div>{hiddenPhrase}</div>      
     </>
   );
 };
