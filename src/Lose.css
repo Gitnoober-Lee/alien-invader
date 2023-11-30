@@ -1,0 +1,11 @@
+.lose {
+    position: absolute;
+    top:20%;
+    text-align: center;
+    width:100%; 
+    -moz-user-select: none;
+}
+
+.lose img{
+    z-index: 0;
+}

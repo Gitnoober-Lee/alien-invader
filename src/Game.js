@@ -8,6 +8,7 @@ import NewGame from "./NewGame";
 import MagicWords from "./MagicWords";
 import Chances from "./Chances";
 import BGM from "./BGM";
+import Lose from "./Lose"
 import linesLevel1 from "./phrases/phrases_level1.txt";
 import linesLevel2 from "./phrases/phrases_level2.txt";
 import linesLevel3 from "./phrases/phrases_level3.txt";
@@ -41,14 +42,16 @@ export default function Game() {
   const [phrasesLevel4, setPhrasesLevel4] = useState([]);
   const [phrasesLevel5, setPhrasesLevel5] = useState([]);
   const [phrasesLevel6, setPhrasesLevel6] = useState([]);
+  const [level, setLevel] = useState(1);
   const [answerPhrase, setAnswerPhrase] = useState("");
   const [chancesLeft, setChancesLeft] = useState(10);
   const [endGameCondition, setEndGameCondition] = useState("");
   let generateEnemyInterval;
  
-  function endGameCheck(){
+  function endGameCheck(){  
     if(chancesLeft!=0){
       if(hiddenPhrase!==""&&hiddenPhrase===answerPhrase){
+        console.log("Win");
         return EndGameCondition.Win;
       }else{
         return EndGameCondition.Playing;
@@ -116,9 +119,15 @@ export default function Game() {
         hiddenPhraseTmp += "*";
       }
     }
-    setHiddenPhrase(hiddenPhraseTmp);
-    setEndGameCondition(endGameCheck());   
+    setHiddenPhrase(hiddenPhraseTmp);     
   }, [isGuessed, answerPhrase]);
+
+  // Check end game condition after setting hiddenPhrase everytime
+  useEffect(()=>{
+    const endTmp = endGameCheck(hiddenPhrase,answerPhrase);
+    setEndGameCondition(endTmp);  
+  },[hiddenPhrase]);
+
 
   //Get phrases from file based on levels (easy:1->hard:6)
   useEffect(() => {
@@ -199,14 +208,14 @@ export default function Game() {
             handleClick: handleClickParent,
           },
         ]);
-      }, 500);
+      }, 400);
 
       // Interval for updating the position of existing enemies every 16 milliseconds
       const updatePositionInterval = setInterval(() => {
         setEnemies((prevEnemies) =>
           prevEnemies.map((enemy) => ({
             ...enemy,
-            y: enemy.y + 0.3,
+            y: enemy.y + 0.4,
           }))
         );
       }, 24);
@@ -219,23 +228,68 @@ export default function Game() {
     }
   }, [gameStarted, isGuessed, characters]);
 
-  // End the game after losing
+  // End the game after losing or winning
   useEffect(() => {
+    if (gameStarted) {   
     if(endGameCondition === EndGameCondition.Lose){
       setGameStarted(false);
       setEnemies([]);
+    }else if(endGameCondition === EndGameCondition.Win){
+      let randomIndex;
+      switch(level){
+        case 1:
+          randomIndex = Math.floor(Math.random() * phrasesLevel2.length);
+          setAnswerPhrase(phrasesLevel2[randomIndex]);
+          setLevel(2);
+          break;
+        case 2:
+          randomIndex = Math.floor(Math.random() * phrasesLevel3.length);
+          setAnswerPhrase(phrasesLevel3[randomIndex]);
+          setLevel(3);
+          break;
+        case 3:
+          randomIndex = Math.floor(Math.random() * phrasesLevel4.length);
+          setAnswerPhrase(phrasesLevel4[randomIndex]);
+          setLevel(4);
+          break;
+        case 4:
+          randomIndex = Math.floor(Math.random() * phrasesLevel5.length);
+          setAnswerPhrase(phrasesLevel5[randomIndex]);
+          setLevel(5);
+          break;
+        case 5:
+          randomIndex = Math.floor(Math.random() * phrasesLevel6.length);
+          setAnswerPhrase(phrasesLevel6[randomIndex]);
+          setLevel(6);
+          break;
+        case 6:
+          randomIndex = Math.floor(Math.random() * phrasesLevel6.length);
+          setAnswerPhrase(phrasesLevel6[randomIndex]);
+          setLevel(6);
+          break;
+      }
+    
+      setGameStarted(true);
+      setEnemies([]);
+      setIsGuessed(Array(26).fill(false));
+      setHiddenPhrase("");
+      setChancesLeft(10);   
     }
+  }
   },[endGameCondition]);
 
   // Filter out enemies that exceed the maximum height
   const visibleEnemies = enemies.filter((enemy) => enemy.y <= maxHeight);
 
+  // If the player loses the game, it'll show <Lose> only. Otherwise, it'll show all the other components when player is playing. 
   return (
     <>
       <div className="up">
         <BGM />
       </div>     
       <NewGame handleClick={handleClickNewGame} />
+      {endGameCondition===EndGameCondition.Lose ? (<Lose />):(
+      <>
       <Boss x={bossX} y={bossY} />
       {visibleEnemies.map((enemy) => (
         <Enemy
@@ -254,6 +308,8 @@ export default function Game() {
         <Chances leftChance={chancesLeft}/>        
         <Shooter />          
       </div>
+      </>
+      )}
     </>
   );
 }
