@@ -15,6 +15,11 @@ import linesLevel4 from "./phrases/phrases_level4.txt";
 import linesLevel5 from "./phrases/phrases_level5.txt";
 import linesLevel6 from "./phrases/phrases_level6.txt";
 
+const EndGameCondition = {
+  Win: 'win',
+  Lose: 'lose',
+  Playing: 'playing'
+}
 
 function isLetter(c) {
   return c.toLowerCase() != c.toUpperCase();
@@ -41,10 +46,14 @@ export default function Game() {
   let generateEnemyInterval;
  
   function endGameCheck(){
-    if(hiddenPhrase===answerPhrase){
-      return true;
+    if(chancesLeft!=0){
+      if(hiddenPhrase!==""&&hiddenPhrase===answerPhrase){
+        return EndGameCondition.Win;
+      }else{
+        return EndGameCondition.Playing;
+      }
     }else{
-      return false;
+      return EndGameCondition.Lose;
     }
   }
 
@@ -106,6 +115,7 @@ export default function Game() {
       }
     }
     setHiddenPhrase(hiddenPhraseTmp);
+    console.log(endGameCheck());
   }, [isGuessed, answerPhrase]);
 
   //Get phrases from file based on levels (easy:1->hard:6)
