@@ -43,6 +43,7 @@ export default function Game() {
   const [phrasesLevel6, setPhrasesLevel6] = useState([]);
   const [answerPhrase, setAnswerPhrase] = useState("");
   const [chancesLeft, setChancesLeft] = useState(10);
+  const [endGameCondition, setEndGameCondition] = useState("");
   let generateEnemyInterval;
  
   function endGameCheck(){
@@ -116,7 +117,7 @@ export default function Game() {
       }
     }
     setHiddenPhrase(hiddenPhraseTmp);
-    console.log(endGameCheck());
+    setEndGameCondition(endGameCheck());   
   }, [isGuessed, answerPhrase]);
 
   //Get phrases from file based on levels (easy:1->hard:6)
@@ -217,6 +218,14 @@ export default function Game() {
       };
     }
   }, [gameStarted, isGuessed, characters]);
+
+  // End the game after losing
+  useEffect(() => {
+    if(endGameCondition === EndGameCondition.Lose){
+      setGameStarted(false);
+      setEnemies([]);
+    }
+  },[endGameCondition]);
 
   // Filter out enemies that exceed the maximum height
   const visibleEnemies = enemies.filter((enemy) => enemy.y <= maxHeight);
