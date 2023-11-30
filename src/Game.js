@@ -2,7 +2,7 @@ import "./Game.css";
 import React, { useState, useEffect } from "react";
 import Boss from "./Boss";
 import Enemy from "./Enemy";
-import DefenseNet from "./DefenseNet"
+import DefenseNet from "./DefenseNet";
 import Shooter from "./Shooter";
 import NewGame from "./NewGame";
 import linesLevel1 from "./phrases/phrases_level1.txt";
@@ -17,14 +17,14 @@ function isLetter(c) {
 }
 
 export default function Game() {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const [gameStarted, setGameStarted] = useState(false);
   const [enemies, setEnemies] = useState([]);
   const maxHeight = 60; // Set your desired maximum height
   const [bossX, setBossX] = useState();
   const [bossY, setBossY] = useState(10);
-  const [isGuessed, setIsGuessed] = useState([false,false,false,false,false,false,false,false,false,false,
-    false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]); // if character A->Z is guessed
+  
+  const [isGuessed, setIsGuessed] = useState(Array(26).fill(false)); // if character A->Z is guessed
   const [hiddenPhrase, setHiddenPhrase] = useState("");
   const [phrasesLevel1, setPhrasesLevel1] = useState([]);
   const [phrasesLevel2, setPhrasesLevel2] = useState([]);
@@ -34,22 +34,46 @@ export default function Game() {
   const [phrasesLevel6, setPhrasesLevel6] = useState([]);
   const [answerPhrase, setAnswerPhrase] = useState("");
 
-  
-  function handleClickNewGame(event){
+  // Event handler for clicking on NewGame component
+  function handleClickNewGame(event) {
     event.preventDefault(); // Prevent the default behavior of the click event
-    setAnswerPhrase(phrasesLevel1[Math.floor(Math.random() * phrasesLevel1.length)]);   
+    setAnswerPhrase(
+      phrasesLevel1[Math.floor(Math.random() * phrasesLevel1.length)]
+    );
     setGameStarted(true);
     setEnemies([]);
   }
 
-  function handleClickParent(event, type, text){
+  // Event handler for clicking on Enemy components
+  function handleClickParent(event, type, text) {
     event.preventDefault(); // Prevent the default behavior of the click event
-    console.log(type+","+text);
-    
-    if(type==='Alien'){      
-      var isGuessedTmp = isGuessed;      
-      isGuessedTmp[characters.indexOf(text)]=true; 
-      setIsGuessed(isGuessedTmp);
+    console.log(type + "," + text);
+
+    // If click on a Alien
+    switch (type) {
+      case "Alien":
+        var isGuessedTmp = isGuessed;
+        var hiddenPhraseTmp = "";
+        isGuessedTmp[characters.indexOf(text)] = true;
+        setIsGuessed(isGuessedTmp);   
+        for (var i = 0; i < answerPhrase.length; i++) {
+          if (isGuessed[characters.indexOf(answerPhrase[i].toUpperCase())] === true || !isLetter(answerPhrase[i])) {
+            hiddenPhraseTmp += answerPhrase[i];
+          } else {
+            hiddenPhraseTmp += "*";
+          }
+        }
+        setHiddenPhrase(hiddenPhraseTmp);
+        break;
+      case "Bonus":
+        //To be implemented
+        break;
+      case "Bomb":
+        //To be implemented
+        break;
+      case "Desitined Card":
+        //To be implemented
+        break;
     }
   }
 
@@ -61,100 +85,118 @@ export default function Game() {
         const phrasesArray = data.split("\n");
         setPhrasesLevel1(phrasesArray);
       });
-      fetch(linesLevel2)
+    fetch(linesLevel2)
       .then((response) => response.text())
       .then((data) => {
         const phrasesArray = data.split("\n");
         setPhrasesLevel2(phrasesArray);
       });
-      fetch(linesLevel3)
+    fetch(linesLevel3)
       .then((response) => response.text())
       .then((data) => {
         const phrasesArray = data.split("\n");
         setPhrasesLevel3(phrasesArray);
       });
-      fetch(linesLevel4)
+    fetch(linesLevel4)
       .then((response) => response.text())
       .then((data) => {
         const phrasesArray = data.split("\n");
         setPhrasesLevel4(phrasesArray);
       });
-      fetch(linesLevel5)
+    fetch(linesLevel5)
       .then((response) => response.text())
       .then((data) => {
         const phrasesArray = data.split("\n");
         setPhrasesLevel5(phrasesArray);
       });
-      fetch(linesLevel6)
+    fetch(linesLevel6)
       .then((response) => response.text())
       .then((data) => {
         const phrasesArray = data.split("\n");
         setPhrasesLevel6(phrasesArray);
-      });      
+      });
   }, []);
 
   //Initialize the hiddenPhrase
   useEffect(() => {
     var hiddenPhraseTmp = "";
-    for(var i=0;i<answerPhrase.length;i++){
-      if(isLetter(answerPhrase.charAt(i))){
-        hiddenPhraseTmp+="*";
-      }else{
-        hiddenPhraseTmp+=answerPhrase.charAt(i);
-      }      
+    for (var i = 0; i < answerPhrase.length; i++) {
+      if (isLetter(answerPhrase.charAt(i))) {
+        hiddenPhraseTmp += "*";
+      } else {
+        hiddenPhraseTmp += answerPhrase.charAt(i);
+      }
     }
     setHiddenPhrase(hiddenPhraseTmp);
   }, [answerPhrase]);
 
-  useEffect(() => {    
+  // Update hiddenPhrase when the player click on a true enemy that is on the list of answerPhrase
+  useEffect(() => {}, [isGuessed]);
+
+  useEffect(() => {
     if (gameStarted) {
-    // Interval for generating a new enemy every 2 seconds
-    const generateEnemyInterval = setInterval(() => {
-    const x = Math.floor(Math.random() * 90);   
-    const typePool = ['Alien','Alien','Alien','Alien','Bomb','Desitined Card','Alien','Alien','Alien','Alien','Alien','Alien','Alien','Bonus'];
-    const text = characters.charAt(Math.floor(Math.random() * characters.length));
-    const type = typePool.at(Math.floor(Math.random() * typePool.length));
-      setBossX(x);
-      setEnemies((prevEnemies) => [
-        ...prevEnemies,
-        { key: prevEnemies.length, x: x, y: 10, type: type, text: type==='Alien'? text : null, handleClick: handleClickParent}
-      ]);
-    }, 500);
+      // Interval for generating a new enemy every 2 seconds
+      const generateEnemyInterval = setInterval(() => {
+        const x = Math.floor(Math.random() * 90);
+        const typePool = ["Alien","Alien","Alien","Alien","Bomb","Desitined Card","Alien","Alien","Alien","Alien","Alien","Alien","Alien","Bonus"];
+        const text = characters.charAt(
+          Math.floor(Math.random() * characters.length)
+        );
+        const type = typePool.at(Math.floor(Math.random() * typePool.length));
+        setBossX(x);
+        setEnemies((prevEnemies) => [
+          ...prevEnemies,
+          {
+            key: prevEnemies.length,
+            x: x,
+            y: 10,
+            type: type,
+            text: type === "Alien" ? text : null,
+            handleClick: handleClickParent,
+          },
+        ]);
+      }, 500);
 
-    // Interval for updating the position of existing enemies every 16 milliseconds
-    const updatePositionInterval = setInterval(() => {
-      setEnemies((prevEnemies) =>
-        prevEnemies.map((enemy) => ({
-          ...enemy,
-          y: enemy.y + 0.3,
-        }))
-      );
-    }, 24);
+      // Interval for updating the position of existing enemies every 16 milliseconds
+      const updatePositionInterval = setInterval(() => {
+        setEnemies((prevEnemies) =>
+          prevEnemies.map((enemy) => ({
+            ...enemy,
+            y: enemy.y + 0.3,
+          }))
+        );
+      }, 24);
 
-    // Clear the intervals when the component is unmounted
-    return () => {
-      clearInterval(generateEnemyInterval);
-      clearInterval(updatePositionInterval);
-    };
-  }
+      // Clear the intervals when the component is unmounted
+      return () => {
+        clearInterval(generateEnemyInterval);
+        clearInterval(updatePositionInterval);
+      };
+    }
   }, [gameStarted]);
 
   // Filter out enemies that exceed the maximum height
   const visibleEnemies = enemies.filter((enemy) => enemy.y <= maxHeight);
 
-  
-
   return (
     <>
-      <NewGame handleClick={handleClickNewGame}/>
-      <Boss x={bossX} y={bossY}/>
+      <NewGame handleClick={handleClickNewGame} />
+      <Boss x={bossX} y={bossY} />
       {visibleEnemies.map((enemy) => (
-        <Enemy key={enemy.key} index={enemy.key} x={enemy.x} y={enemy.y} type={enemy.type} text={enemy.text} handleClick={enemy.handleClick}/>
+        <Enemy
+          key={enemy.key}
+          index={enemy.key}
+          x={enemy.x}
+          y={enemy.y}
+          type={enemy.type}
+          text={enemy.text}
+          handleClick={enemy.handleClick}
+        />
       ))}
-      <DefenseNet y={maxHeight}/>
-      <Shooter/>
+      <DefenseNet y={maxHeight} />
+      <Shooter />
       <div>{answerPhrase}</div>
-      <div>{hiddenPhrase}</div>      
+      <div>{hiddenPhrase}</div>
     </>
   );
-};
+}
