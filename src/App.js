@@ -16,7 +16,7 @@ function App() {
 
         <div className="col2">
           <div className="title">
-            <p>Alien Holocaust</p>
+            <p>Alien Invader</p>
           </div>
           <div className="game">
             <Game />
