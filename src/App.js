@@ -6,8 +6,7 @@ import GameRecords from "./GameRecords";
 
 function App() {
   return (
-    <div className="App">
-      <body>
+    <div className="App">      
         <div className="col1">
           <div className="sideBar">
             <p>How to play:</p>
@@ -32,8 +31,6 @@ function App() {
             <GameRecords/>
           </div>
         </div>
-        
-      </body>
 
       <footer>
         <p>Copyright YJ, Marshall, Vincent</p>
