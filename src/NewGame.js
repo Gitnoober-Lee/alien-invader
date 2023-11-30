@@ -1,11 +1,11 @@
 import "./NewGame.css";
-import bomb from "./images/bomb.png"
+import playButton from "./images/playButton.png"
 
 export default function NewGame({ handleClick }) {
-  const style = { left: "50%", top: "65vh", position: "absolute" };
+  const style = { top: "75vh", position: "absolute" };
   return (
-    <div className="enemy" style={style}>
-      <img src={bomb} onClick={(event) => handleClick(event)} />      
+    <div className="newgame" style={style}>
+      <img src={playButton} onClick={(event) => handleClick(event)} />      
     </div>
   );
 }

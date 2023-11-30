@@ -1,4 +1,4 @@
-.newgame {
+.magic-words {
     position: absolute;
     width: 100%;
     margin-left: auto; 
@@ -6,10 +6,9 @@
     display: block;
 }
 
-.newgame img {
-    width: 10vh;
-    height: 10vh;
-    margin-left: auto;
+.magic-words p {
+    width: 50vb; 
+    font-size: 1.5rem;
     margin-right: auto;
-    display: block;    
+    display: block;
 }

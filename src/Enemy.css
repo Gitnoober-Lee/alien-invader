@@ -13,10 +13,18 @@
 .enemy img{
     width: 7vh;
     height: 7vh;  
+    opacity: 70%;
 }
 
 .enemy div {
-    font-size: x-large;
-    color: aqua;
+    -webkit-text-stroke: 1px red; /* width and color */
+
+    font-family:'Times New Roman', Times, serif;
+    position: absolute;
+    font-size: xx-large;
+    font-weight: 500;
+    font-style:normal;
+    color: brown;
+    pointer-events: none;
 }
 

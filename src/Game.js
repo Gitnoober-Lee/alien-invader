@@ -1,10 +1,13 @@
 import "./Game.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useSound } from "react";
 import Boss from "./Boss";
 import Enemy from "./Enemy";
 import DefenseNet from "./DefenseNet";
 import Shooter from "./Shooter";
 import NewGame from "./NewGame";
+import MagicWords from "./MagicWords";
+import Chances from "./Chances";
+import BGM from "./BGM";
 import linesLevel1 from "./phrases/phrases_level1.txt";
 import linesLevel2 from "./phrases/phrases_level2.txt";
 import linesLevel3 from "./phrases/phrases_level3.txt";
@@ -12,12 +15,13 @@ import linesLevel4 from "./phrases/phrases_level4.txt";
 import linesLevel5 from "./phrases/phrases_level5.txt";
 import linesLevel6 from "./phrases/phrases_level6.txt";
 
+
 function isLetter(c) {
   return c.toLowerCase() != c.toUpperCase();
 }
 
 export default function Game() {
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
   const [gameStarted, setGameStarted] = useState(false);
   const [enemies, setEnemies] = useState([]);
   const maxHeight = 60; // Set your desired maximum height
@@ -33,7 +37,16 @@ export default function Game() {
   const [phrasesLevel5, setPhrasesLevel5] = useState([]);
   const [phrasesLevel6, setPhrasesLevel6] = useState([]);
   const [answerPhrase, setAnswerPhrase] = useState("");
+  const [chancesLeft, setChancesLeft] = useState(10);
+  let generateEnemyInterval;
  
+  function endGameCheck(){
+    if(hiddenPhrase===answerPhrase){
+      return true;
+    }else{
+      return false;
+    }
+  }
 
   // Event handler for clicking on NewGame component
   function handleClickNewGame(event) {
@@ -43,7 +56,8 @@ export default function Game() {
     setGameStarted(true);
     setEnemies([]);
     setIsGuessed(Array(26).fill(false));
-    setHiddenPhrase("");   
+    setHiddenPhrase("");
+    setChancesLeft(10);   
   }
 
   // Event handler for clicking on Enemy components
@@ -58,7 +72,13 @@ export default function Game() {
           updatedIsGuessed[characters.indexOf(text)] = true;
           return updatedIsGuessed;
         });        
-       
+        setChancesLeft((prevChancesLeft) => {
+          // Ensure chances are only decreased if the character is not in the answerPhrase
+          if (answerPhrase.toUpperCase().indexOf(text.toUpperCase()) === -1) {
+            return prevChancesLeft - 1;
+          }
+          return prevChancesLeft;
+        });
         break;
       case "Bonus":
         //To be implemented
@@ -144,12 +164,16 @@ export default function Game() {
   useEffect(() => {
     if (gameStarted) {
       // Interval for generating a new enemy every 2 seconds
-      const generateEnemyInterval = setInterval(() => {
+      generateEnemyInterval = setInterval(() => {
         const x = Math.floor(Math.random() * 90);
         const typePool = ["Alien","Alien","Alien","Alien","Bomb","Desitined Card","Alien","Alien","Alien","Alien","Alien","Alien","Alien","Bonus"];
-        const text = characters.charAt(
-          Math.floor(Math.random() * characters.length)
-        );
+        
+        let randomIndex = Math.floor(Math.random() * characters.length);
+        while(isGuessed[randomIndex]===true){
+          randomIndex = Math.floor(Math.random() * characters.length);
+        }
+
+        let text = characters.charAt(randomIndex);   
         const type = typePool.at(Math.floor(Math.random() * typePool.length));
         setBossX(x);
         setEnemies((prevEnemies) => [
@@ -181,13 +205,16 @@ export default function Game() {
         clearInterval(updatePositionInterval);
       };
     }
-  }, [gameStarted]);
+  }, [gameStarted, isGuessed, characters]);
 
   // Filter out enemies that exceed the maximum height
   const visibleEnemies = enemies.filter((enemy) => enemy.y <= maxHeight);
 
   return (
     <>
+      <div className="up">
+        <BGM />
+      </div>     
       <NewGame handleClick={handleClickNewGame} />
       <Boss x={bossX} y={bossY} />
       {visibleEnemies.map((enemy) => (
@@ -202,9 +229,11 @@ export default function Game() {
         />
       ))}
       <DefenseNet y={maxHeight} />
-      <Shooter />
-      <div>{answerPhrase}</div>
-      <div>{hiddenPhrase}</div>
+      <div className="down">
+        <MagicWords answerPhrase={answerPhrase} hiddenPhrase={hiddenPhrase}/>
+        <Chances leftChance={chancesLeft}/>        
+        <Shooter />          
+      </div>
     </>
   );
 }

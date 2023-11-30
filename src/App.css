@@ -65,7 +65,7 @@
 }
 
 .game {
-  background-image: url("https://th.bing.com/th/id/R.7a7b222ed96c328431a6a2283be23262?rik=fdRSHyyDNYKVXg&riu=http%3a%2f%2fwww.pixelstalk.net%2fwp-content%2fuploads%2f2016%2f05%2fSky-Desktop-Backgrounds-Hd-Images.jpg&ehk=CnA60t9Jiqk7Vj4FfOxbZG%2bZwBln%2fT6XJS91Xq9LBLE%3d&risl=&pid=ImgRaw&r=0");
+  background-image: url("./images/AlienInvaderBackground.png");
   background-repeat: no-repeat;
   background-size: cover;
   height: 95vh;
@@ -82,6 +82,11 @@
   background-size: cover;
   height: 95vh;
   opacity: 0.4;
+}
+
+.down {
+  position: relative;
+  top: 80%;
 }
 
 footer {
