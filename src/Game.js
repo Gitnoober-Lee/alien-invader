@@ -46,12 +46,12 @@ export default function Game() {
   const [answerPhrase, setAnswerPhrase] = useState("");
   const [chancesLeft, setChancesLeft] = useState(10);
   const [endGameCondition, setEndGameCondition] = useState("");
+  const [score, setScore] = useState(0);
   let generateEnemyInterval;
  
   function endGameCheck(){  
     if(chancesLeft!=0){
-      if(hiddenPhrase!==""&&hiddenPhrase===answerPhrase){
-        console.log("Win");
+      if(hiddenPhrase!==""&&hiddenPhrase===answerPhrase){        
         return EndGameCondition.Win;
       }else{
         return EndGameCondition.Playing;
@@ -75,8 +75,7 @@ export default function Game() {
 
   // Event handler for clicking on Enemy components
   function handleClickParent(event, type, text) {
-    event.preventDefault(); // Prevent the default behavior of the click event
-    console.log(type + "," + text);   
+    event.preventDefault(); // Prevent the default behavior of the click event     
    
     switch (type) {
       // If click on a Alien, then update isGuessed and chancesLeft depending on which enemy got hit
@@ -125,8 +124,10 @@ export default function Game() {
   // Check end game condition after setting hiddenPhrase everytime
   useEffect(()=>{
     const endTmp = endGameCheck(hiddenPhrase,answerPhrase);
-    setEndGameCondition(endTmp);  
-  },[hiddenPhrase]);
+    if(endTmp!=endGameCondition){
+      setEndGameCondition(endTmp); 
+    }    
+  },[isGuessed, hiddenPhrase]);
 
 
   //Get phrases from file based on levels (easy:1->hard:6)
@@ -169,18 +170,8 @@ export default function Game() {
       });
   }, []);
 
-  //Initialize the hiddenPhrase
-  useEffect(() => {
-    let hiddenPhraseTmp = "";
-    for (var i = 0; i < answerPhrase.length; i++) {
-      if (isLetter(answerPhrase.charAt(i))) {
-        hiddenPhraseTmp += "*";
-      } else {
-        hiddenPhraseTmp += answerPhrase.charAt(i);
-      }
-    }
-    setHiddenPhrase(hiddenPhraseTmp);
-  }, [answerPhrase]);
+
+  
 
   useEffect(() => {
     if (gameStarted) {
@@ -215,10 +206,10 @@ export default function Game() {
         setEnemies((prevEnemies) =>
           prevEnemies.map((enemy) => ({
             ...enemy,
-            y: enemy.y + 0.4,
+            y: enemy.y + 0.5,
           }))
         );
-      }, 24);
+      }, 36);
 
       // Clear the intervals when the component is unmounted
       return () => {
@@ -226,7 +217,7 @@ export default function Game() {
         clearInterval(updatePositionInterval);
       };
     }
-  }, [gameStarted, isGuessed, characters]);
+  }, [gameStarted]);
 
   // End the game after losing or winning
   useEffect(() => {
@@ -234,18 +225,19 @@ export default function Game() {
     if(endGameCondition === EndGameCondition.Lose){
       setGameStarted(false);
       setEnemies([]);
+      setScore(score+0);
     }else if(endGameCondition === EndGameCondition.Win){
       let randomIndex;
       switch(level){
         case 1:
           randomIndex = Math.floor(Math.random() * phrasesLevel2.length);
           setAnswerPhrase(phrasesLevel2[randomIndex]);
-          setLevel(2);
+          setLevel(2);          
           break;
         case 2:
           randomIndex = Math.floor(Math.random() * phrasesLevel3.length);
           setAnswerPhrase(phrasesLevel3[randomIndex]);
-          setLevel(3);
+          setLevel(3);          
           break;
         case 3:
           randomIndex = Math.floor(Math.random() * phrasesLevel4.length);
@@ -268,12 +260,13 @@ export default function Game() {
           setLevel(6);
           break;
       }
-    
+      setScore((prevScore) => { return prevScore+level*chancesLeft*100;});
       setGameStarted(true);
       setEnemies([]);
       setIsGuessed(Array(26).fill(false));
       setHiddenPhrase("");
-      setChancesLeft(10);   
+      setChancesLeft(10);  
+      console.log(score); 
     }
   }
   },[endGameCondition]);
@@ -288,6 +281,7 @@ export default function Game() {
         <BGM />
       </div>     
       <NewGame handleClick={handleClickNewGame} />
+      <p>Score:{score}</p>
       {endGameCondition===EndGameCondition.Lose ? (<Lose />):(
       <>
       <Boss x={bossX} y={bossY} />
