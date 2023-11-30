@@ -1,14 +1,12 @@
 .shooter {
-    width: 10vb;
-    height: 10vh;
-    border-radius: 20%;
-    position: absolute;
-    left:45%;
-    top:85vh;
+    position: relative;
+    top: 80%;    
 }
 
 .shooter img {
     width: 15vb;
     height: 15vh;
-    
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
