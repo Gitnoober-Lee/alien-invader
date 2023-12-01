@@ -15,6 +15,7 @@ import linesLevel3 from "./phrases/phrases_level3.txt";
 import linesLevel4 from "./phrases/phrases_level4.txt";
 import linesLevel5 from "./phrases/phrases_level5.txt";
 import linesLevel6 from "./phrases/phrases_level6.txt";
+import generateEnemies from "./generateEnemies";
 
 const EndGameCondition = {
   Win: 'win',
@@ -67,10 +68,11 @@ export default function Game() {
     let randomIndex = Math.floor(Math.random() * phrasesLevel1.length);
     setAnswerPhrase(phrasesLevel1[randomIndex]);
     setGameStarted(true);
-    setEnemies([]);
+    setEnemies(generateEnemies(handleClickParent));
     setIsGuessed(Array(26).fill(false));
     setHiddenPhrase("");
     setChancesLeft(10);   
+    
   }
 
   // Event handler for clicking on Enemy components
@@ -187,26 +189,22 @@ export default function Game() {
 
         let text = characters.charAt(randomIndex);   
         const type = typePool.at(Math.floor(Math.random() * typePool.length));
-        setBossX(x);
-        setEnemies((prevEnemies) => [
-          ...prevEnemies,
-          {
-            key: prevEnemies.length,
-            x: x,
-            y: 10,
-            type: type,
-            text: type === "Alien" ? text : null,
-            handleClick: handleClickParent,
-          },
-        ]);
-      }, 400);
+        setBossX(x);       
+        randomIndex = Math.floor(Math.random() * enemies.length);
+        setEnemies((prevEnemies) => {
+          const updatedEnemies = [...prevEnemies];          
+          updatedEnemies[randomIndex].x=x;
+          return updatedEnemies;
+        });
+      }, 300);
 
       // Interval for updating the position of existing enemies every 16 milliseconds
-      const updatePositionInterval = setInterval(() => {
+      const updatePositionInterval = setInterval(() => {   
         setEnemies((prevEnemies) =>
           prevEnemies.map((enemy) => ({
             ...enemy,
-            y: enemy.y + 0.5,
+            x: (enemy.y>=maxHeight) ? -100 : enemy.x,
+            y: (enemy.y>=maxHeight) ? 10 : ((enemy.x>=0) ? enemy.y + 0.3 : enemy.y),
           }))
         );
       }, 36);
@@ -224,7 +222,7 @@ export default function Game() {
     if (gameStarted) {   
     if(endGameCondition === EndGameCondition.Lose){
       setGameStarted(false);
-      setEnemies([]);
+      setEnemies(generateEnemies(handleClickParent));
       setScore(score+0);
     }else if(endGameCondition === EndGameCondition.Win){
       let randomIndex;
@@ -262,7 +260,7 @@ export default function Game() {
       }
       setScore((prevScore) => { return prevScore+level*chancesLeft*100;});
       setGameStarted(true);
-      setEnemies([]);
+      setEnemies(generateEnemies(handleClickParent));
       setIsGuessed(Array(26).fill(false));
       setHiddenPhrase("");
       setChancesLeft(10);  
