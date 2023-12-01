@@ -8,7 +8,7 @@ import NewGame from "./NewGame";
 import MagicWords from "./MagicWords";
 import Chances from "./Chances";
 import BGM from "./BGM";
-import Lose from "./Lose"
+import Lose from "./Lose";
 import linesLevel1 from "./phrases/phrases_level1.txt";
 import linesLevel2 from "./phrases/phrases_level2.txt";
 import linesLevel3 from "./phrases/phrases_level3.txt";
@@ -18,23 +18,23 @@ import linesLevel6 from "./phrases/phrases_level6.txt";
 import generateEnemies from "./generateEnemies";
 
 const EndGameCondition = {
-  Win: 'win',
-  Lose: 'lose',
-  Playing: 'playing'
-}
+  Win: "win",
+  Lose: "lose",
+  Playing: "playing",
+};
 
 function isLetter(c) {
   return c.toLowerCase() != c.toUpperCase();
 }
 
 export default function Game() {
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const [gameStarted, setGameStarted] = useState(false);
   const [enemies, setEnemies] = useState([]);
   const maxHeight = 60; // Set your desired maximum height
   const [bossX, setBossX] = useState();
   const [bossY, setBossY] = useState(10);
-  
+
   const [isGuessed, setIsGuessed] = useState(Array(26).fill(false)); // if character A->Z is guessed
   const [hiddenPhrase, setHiddenPhrase] = useState("");
   const [phrasesLevel1, setPhrasesLevel1] = useState([]);
@@ -48,20 +48,20 @@ export default function Game() {
   const [chancesLeft, setChancesLeft] = useState(10);
   const [endGameCondition, setEndGameCondition] = useState("");
   const [score, setScore] = useState(0);
-  const timeLimit = 1000*120; // 2 mins time limit for playing one round
-  const [timeLeft, setTimeLeft] = useState(timeLimit); 
+  const timeLimit = 1000 * 120; // 2 mins time limit for playing one round
+  const [timeLeft, setTimeLeft] = useState(timeLimit);
   let generateEnemyInterval;
- 
-  function endGameCheck(){  
-    if(chancesLeft!=0){
-      if(hiddenPhrase!==""&&hiddenPhrase===answerPhrase){        
+
+  function endGameCheck() {
+    if (chancesLeft != 0) {
+      if (hiddenPhrase !== "" && hiddenPhrase === answerPhrase) {
         return EndGameCondition.Win;
-      }else if(timeLeft<=0){
+      } else if (timeLeft <= 0) {
         return EndGameCondition.Lose;
-      }else{
+      } else {
         return EndGameCondition.Playing;
       }
-    }else{
+    } else {
       return EndGameCondition.Lose;
     }
   }
@@ -75,22 +75,22 @@ export default function Game() {
     setEnemies(generateEnemies(handleClickParent));
     setIsGuessed(Array(26).fill(false));
     setHiddenPhrase("");
-    setChancesLeft(10);   
+    setChancesLeft(10);
     setTimeLeft(timeLimit);
   }
 
   // Event handler for clicking on Enemy components
   function handleClickParent(event, type, text, index) {
-    event.preventDefault(); // Prevent the default behavior of the click event     
-   
+    event.preventDefault(); // Prevent the default behavior of the click event
+
     switch (type) {
       // If click on a Alien, then update isGuessed and chancesLeft depending on which enemy got hit
       case "Alien":
         setIsGuessed((prevIsGuessed) => {
-          const updatedIsGuessed = [...prevIsGuessed];          
+          const updatedIsGuessed = [...prevIsGuessed];
           updatedIsGuessed[characters.indexOf(text)] = true;
           return updatedIsGuessed;
-        });        
+        });
         setChancesLeft((prevChancesLeft) => {
           // Ensure chances are only decreased if the character is not in the answerPhrase
           if (answerPhrase.toUpperCase().indexOf(text.toUpperCase()) === -1) {
@@ -100,37 +100,47 @@ export default function Game() {
         });
         break;
       case "Bonus":
-        setChancesLeft((prevChancesLeft) => { return prevChancesLeft + 1; });
+        setChancesLeft((prevChancesLeft) => {
+          return prevChancesLeft + 1;
+        });
         break;
       case "Bomb":
-        setChancesLeft((prevChancesLeft) => { return prevChancesLeft - 2; });
+        setChancesLeft((prevChancesLeft) => {
+          return prevChancesLeft - 2;
+        });
         break;
       case "Desitined Card":
         //To be implemented
         const randomDraw = Math.floor(Math.random() * 5);
-        switch(randomDraw){
+        switch (randomDraw) {
           case 0: // Increase 2 chances
-            setChancesLeft((prevChancesLeft) => { return prevChancesLeft + 2; });
+            setChancesLeft((prevChancesLeft) => {
+              return prevChancesLeft + 2;
+            });
             break;
           case 1: // Reduce 2 chances
-            setChancesLeft((prevChancesLeft) => { return prevChancesLeft - 2; });
+            setChancesLeft((prevChancesLeft) => {
+              return prevChancesLeft - 2;
+            });
             break;
           case 2: //Increase 10 seconds
             setTimeLeft((prevTimeLeft) => {
-              let updatedTimeLeft = prevTimeLeft;          
-              updatedTimeLeft+=10000;
+              let updatedTimeLeft = prevTimeLeft;
+              updatedTimeLeft += 10000;
               return updatedTimeLeft;
             });
             break;
           case 3: //Decrease 10 seconds
             setTimeLeft((prevTimeLeft) => {
-              let updatedTimeLeft = prevTimeLeft;          
-              updatedTimeLeft-=10000;
+              let updatedTimeLeft = prevTimeLeft;
+              updatedTimeLeft -= 10000;
               return updatedTimeLeft;
             });
             break;
           case 4: //Increase 10000 scores
-            setScore((prevScore) => { return prevScore+10000;});
+            setScore((prevScore) => {
+              return prevScore + 10000;
+            });
             break;
         }
         break;
@@ -138,12 +148,11 @@ export default function Game() {
 
     // Disappear after clicking
     setEnemies((prevEnemies) => {
-      const updatedEnemies = [...prevEnemies];          
-      updatedEnemies[index].x=-100;
-      updatedEnemies[index].y=10;
+      const updatedEnemies = [...prevEnemies];
+      updatedEnemies[index].x = -100;
+      updatedEnemies[index].y = 10;
       return updatedEnemies;
-    });     
-
+    });
   }
 
   // Use useEffect to update hiddenPhrase after isGuessed is updated
@@ -159,17 +168,16 @@ export default function Game() {
         hiddenPhraseTmp += "*";
       }
     }
-    setHiddenPhrase(hiddenPhraseTmp);     
+    setHiddenPhrase(hiddenPhraseTmp);
   }, [isGuessed, answerPhrase]);
 
   // Check end game condition after setting hiddenPhrase everytime
-  useEffect(()=>{
-    const endTmp = endGameCheck(hiddenPhrase,answerPhrase);
-    if(endTmp!=endGameCondition){
-      setEndGameCondition(endTmp); 
-    }    
-  },[isGuessed, hiddenPhrase, timeLeft]);
-
+  useEffect(() => {
+    const endTmp = endGameCheck(hiddenPhrase, answerPhrase);
+    if (endTmp != endGameCondition) {
+      setEndGameCondition(endTmp);
+    }
+  }, [isGuessed, hiddenPhrase, timeLeft]);
 
   //Get phrases from file based on levels (easy:1->hard:6)
   useEffect(() => {
@@ -211,46 +219,65 @@ export default function Game() {
       });
   }, []);
 
-
   // Interval for generating a new enemy every 0.3 seconds
   useEffect(() => {
-    if (gameStarted) {      
+    if (gameStarted) {
       generateEnemyInterval = setInterval(() => {
         const x = Math.floor(Math.random() * 90);
-        const typePool = ["Alien","Alien","Alien","Alien","Bomb","Desitined Card","Alien","Alien","Alien","Alien","Alien","Alien","Alien","Bonus"];
-        
+        const typePool = [
+          "Alien",
+          "Alien",
+          "Alien",
+          "Alien",
+          "Bomb",
+          "Desitined Card",
+          "Alien",
+          "Alien",
+          "Alien",
+          "Alien",
+          "Alien",
+          "Alien",
+          "Alien",
+          "Bonus",
+        ];
+
         let randomIndex = Math.floor(Math.random() * characters.length);
-        while(isGuessed[randomIndex]===true){
+        while (isGuessed[randomIndex] === true) {
           randomIndex = Math.floor(Math.random() * characters.length);
         }
 
-        let text = characters.charAt(randomIndex);   
+        let text = characters.charAt(randomIndex);
         const type = typePool.at(Math.floor(Math.random() * typePool.length));
-        setBossX(x);       
+        setBossX(x);
         randomIndex = Math.floor(Math.random() * enemies.length);
         setEnemies((prevEnemies) => {
-          const updatedEnemies = [...prevEnemies];          
-          updatedEnemies[randomIndex].x=x;
+          const updatedEnemies = [...prevEnemies];
+          updatedEnemies[randomIndex].x = x;
           return updatedEnemies;
-        });       
+        });
       }, 300);
 
-      // Interval for updating the timeLeft in every 100 milliseconds      
+      // Interval for updating the timeLeft in every 100 milliseconds
       const updateTimeInterval = setInterval(() => {
         setTimeLeft((prevTimeLeft) => {
-          let updatedTimeLeft = prevTimeLeft;          
-          updatedTimeLeft-=1000;
+          let updatedTimeLeft = prevTimeLeft;
+          updatedTimeLeft -= 1000;
           return updatedTimeLeft;
         });
-      },1000);
+      }, 1000);
 
-      // Interval for updating the position of existing enemies every 36 milliseconds     
-      const updatePositionInterval = setInterval(() => {   
+      // Interval for updating the position of existing enemies every 36 milliseconds
+      const updatePositionInterval = setInterval(() => {
         setEnemies((prevEnemies) =>
           prevEnemies.map((enemy) => ({
             ...enemy,
-            x: (enemy.y>=maxHeight) ? -100 : enemy.x,
-            y: (enemy.y>=maxHeight) ? 10 : ((enemy.x>=0) ? enemy.y + 0.3 : enemy.y),
+            x: enemy.y >= maxHeight ? -100 : enemy.x,
+            y:
+              enemy.y >= maxHeight
+                ? 10
+                : enemy.x >= 0
+                ? enemy.y + 0.3
+                : enemy.y,
           }))
         );
       }, 36);
@@ -266,89 +293,98 @@ export default function Game() {
 
   // End the game after losing or winning
   useEffect(() => {
-    if (gameStarted) {   
-    if(endGameCondition === EndGameCondition.Lose){
-      setGameStarted(false);
-      setEnemies(generateEnemies(handleClickParent));
-      setScore(score+0);
-    }else if(endGameCondition === EndGameCondition.Win){
-      let randomIndex;
-      switch(level){
-        case 1:
-          randomIndex = Math.floor(Math.random() * phrasesLevel2.length);
-          setAnswerPhrase(phrasesLevel2[randomIndex]);
-          setLevel(2);          
-          break;
-        case 2:
-          randomIndex = Math.floor(Math.random() * phrasesLevel3.length);
-          setAnswerPhrase(phrasesLevel3[randomIndex]);
-          setLevel(3);          
-          break;
-        case 3:
-          randomIndex = Math.floor(Math.random() * phrasesLevel4.length);
-          setAnswerPhrase(phrasesLevel4[randomIndex]);
-          setLevel(4);
-          break;
-        case 4:
-          randomIndex = Math.floor(Math.random() * phrasesLevel5.length);
-          setAnswerPhrase(phrasesLevel5[randomIndex]);
-          setLevel(5);
-          break;
-        case 5:
-          randomIndex = Math.floor(Math.random() * phrasesLevel6.length);
-          setAnswerPhrase(phrasesLevel6[randomIndex]);
-          setLevel(6);
-          break;
-        case 6:
-          randomIndex = Math.floor(Math.random() * phrasesLevel6.length);
-          setAnswerPhrase(phrasesLevel6[randomIndex]);
-          setLevel(6);
-          break;
+    if (gameStarted) {
+      if (endGameCondition === EndGameCondition.Lose) {
+        setGameStarted(false);
+        setEnemies(generateEnemies(handleClickParent));
+        setScore(score + 0);
+      } else if (endGameCondition === EndGameCondition.Win) {
+        let randomIndex;
+        switch (level) {
+          case 1:
+            randomIndex = Math.floor(Math.random() * phrasesLevel2.length);
+            setAnswerPhrase(phrasesLevel2[randomIndex]);
+            setLevel(2);
+            break;
+          case 2:
+            randomIndex = Math.floor(Math.random() * phrasesLevel3.length);
+            setAnswerPhrase(phrasesLevel3[randomIndex]);
+            setLevel(3);
+            break;
+          case 3:
+            randomIndex = Math.floor(Math.random() * phrasesLevel4.length);
+            setAnswerPhrase(phrasesLevel4[randomIndex]);
+            setLevel(4);
+            break;
+          case 4:
+            randomIndex = Math.floor(Math.random() * phrasesLevel5.length);
+            setAnswerPhrase(phrasesLevel5[randomIndex]);
+            setLevel(5);
+            break;
+          case 5:
+            randomIndex = Math.floor(Math.random() * phrasesLevel6.length);
+            setAnswerPhrase(phrasesLevel6[randomIndex]);
+            setLevel(6);
+            break;
+          case 6:
+            randomIndex = Math.floor(Math.random() * phrasesLevel6.length);
+            setAnswerPhrase(phrasesLevel6[randomIndex]);
+            setLevel(6);
+            break;
+        }
+        setScore((prevScore) => {
+          return prevScore + level * chancesLeft * timeLeft;
+        });
+        setGameStarted(true);
+        setEnemies(generateEnemies(handleClickParent));
+        setIsGuessed(Array(26).fill(false));
+        setHiddenPhrase("");
+        setChancesLeft(10);
+        setTimeLeft(timeLimit);
       }
-      setScore((prevScore) => { return prevScore+level*chancesLeft*timeLeft;});
-      setGameStarted(true);
-      setEnemies(generateEnemies(handleClickParent));
-      setIsGuessed(Array(26).fill(false));
-      setHiddenPhrase("");
-      setChancesLeft(10);  
-      setTimeLeft(timeLimit); 
     }
-  }
-  },[endGameCondition]);
+  }, [endGameCondition]);
 
   // Filter out enemies that exceed the maximum height
   const visibleEnemies = enemies.filter((enemy) => enemy.y <= maxHeight);
 
-  // If the player loses the game, it'll show <Lose> only. Otherwise, it'll show all the other components when player is playing. 
+  // If the player loses the game, it'll show <Lose> only. Otherwise, it'll show all the other components when player is playing.
   return (
     <>
       <div className="up">
         <BGM />
-      </div>     
-      <NewGame handleClick={handleClickNewGame} />
-      <p style={{fontSize:"xx-large", position:"fixed"}}>Score:{score}</p>
-      <p style={{fontSize:"xx-large", position:"fixed", top:"10vh"}}>Time:{timeLeft/1000} s</p>
-      {endGameCondition===EndGameCondition.Lose ? (<Lose />):(
-      <>
-      <Boss x={bossX} y={bossY} />
-      {visibleEnemies.map((enemy) => (
-        <Enemy
-          key={enemy.key}
-          index={enemy.key}
-          x={enemy.x}
-          y={enemy.y}
-          type={enemy.type}
-          text={enemy.text}
-          handleClick={enemy.handleClick}
-        />
-      ))}
-      <DefenseNet y={maxHeight} />
-      <div className="down">
-        <MagicWords answerPhrase={answerPhrase} hiddenPhrase={hiddenPhrase}/>
-        <Chances leftChance={chancesLeft}/>        
-        <Shooter />          
       </div>
-      </>
+      <NewGame handleClick={handleClickNewGame} />
+      <p style={{ fontSize: "xx-large", position: "fixed" }}>Score:{score}</p>
+      <p style={{ fontSize: "xx-large", position: "fixed", top: "10vh" }}>
+        Time:{timeLeft / 1000} s
+      </p>
+      {endGameCondition === EndGameCondition.Lose ? (
+        <Lose />
+      ) : (
+        <>
+          <Boss x={bossX} y={bossY} />
+          {visibleEnemies.map((enemy) => (
+            <Enemy
+              key={enemy.key}
+              index={enemy.key}
+              x={enemy.x}
+              y={enemy.y}
+              type={enemy.type}
+              text={enemy.text}
+              handleClick={enemy.handleClick}
+            />
+          ))}
+          <DefenseNet y={maxHeight} />
+          <div className="down">
+            <MagicWords
+              answerPhrase={answerPhrase}
+              hiddenPhrase={hiddenPhrase}
+            />
+            <Chances leftChance={chancesLeft} />
+            <Shooter />
+          </div>
+        </>
       )}
     </>
   );
