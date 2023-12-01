@@ -289,8 +289,8 @@ export default function Game() {
         <BGM />
       </div>     
       <NewGame handleClick={handleClickNewGame} />
-      <p>Score:{score}</p>
-      <p>Time:{timeLeft/1000}</p>
+      <p style={{fontSize:"xx-large", position:"fixed"}}>Score:{score}</p>
+      <p style={{fontSize:"xx-large", position:"fixed", top:"10vh"}}>Time:{timeLeft/1000} s</p>
       {endGameCondition===EndGameCondition.Lose ? (<Lose />):(
       <>
       <Boss x={bossX} y={bossY} />
