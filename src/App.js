@@ -4,6 +4,7 @@ import Login from "./Login";
 import Game from "./Game";
 import GameRecords from "./GameRecords";
 import { initializeApp } from "firebase/app";
+import coffee from "./images/buyMeACoffee.png"
 
 function App() {
   // Your web app's Firebase configuration
@@ -18,7 +19,7 @@ function App() {
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-  
+
   return (
     <div className="App">
       <div className="col1">
@@ -47,7 +48,10 @@ function App() {
       </div>
 
       <footer>
-        <p>Copyright YJ, Marshall, Vincent</p>
+        <p style={{display:"inline-block"}}>Copyright YJ, Marshall, Vincent</p>
+        <a href="https://www.buymeacoffee.com/redjackfred">
+          <img src={coffee} />
+        </a>
       </footer>
     </div>
   );
