@@ -48,6 +48,8 @@ export default function Game() {
   const [chancesLeft, setChancesLeft] = useState(10);
   const [endGameCondition, setEndGameCondition] = useState("");
   const [score, setScore] = useState(0);
+  const timeLimit = 1000*120; // 2 mins time limit for playing one round
+  const [timeLeft, setTimeLeft] = useState(timeLimit); 
   let generateEnemyInterval;
  
   function endGameCheck(){  
@@ -72,7 +74,7 @@ export default function Game() {
     setIsGuessed(Array(26).fill(false));
     setHiddenPhrase("");
     setChancesLeft(10);   
-    
+    setTimeLeft(timeLimit);
   }
 
   // Event handler for clicking on Enemy components
@@ -173,11 +175,9 @@ export default function Game() {
   }, []);
 
 
-  
-
+  // Interval for generating a new enemy every 0.3 seconds
   useEffect(() => {
-    if (gameStarted) {
-      // Interval for generating a new enemy every 2 seconds
+    if (gameStarted) {      
       generateEnemyInterval = setInterval(() => {
         const x = Math.floor(Math.random() * 90);
         const typePool = ["Alien","Alien","Alien","Alien","Bomb","Desitined Card","Alien","Alien","Alien","Alien","Alien","Alien","Alien","Bonus"];
@@ -195,10 +195,19 @@ export default function Game() {
           const updatedEnemies = [...prevEnemies];          
           updatedEnemies[randomIndex].x=x;
           return updatedEnemies;
-        });
+        });       
       }, 300);
 
-      // Interval for updating the position of existing enemies every 16 milliseconds
+      // Interval for updating the timeLeft in every 100 milliseconds      
+      const updateTimeInterval = setInterval(() => {
+        setTimeLeft((prevTimeLeft) => {
+          let updatedTimeLeft = prevTimeLeft;          
+          updatedTimeLeft-=100;
+          return updatedTimeLeft;
+        });
+      },100);
+
+      // Interval for updating the position of existing enemies every 36 milliseconds     
       const updatePositionInterval = setInterval(() => {   
         setEnemies((prevEnemies) =>
           prevEnemies.map((enemy) => ({
@@ -213,6 +222,7 @@ export default function Game() {
       return () => {
         clearInterval(generateEnemyInterval);
         clearInterval(updatePositionInterval);
+        clearInterval(updateTimeInterval);
       };
     }
   }, [gameStarted]);
@@ -258,13 +268,13 @@ export default function Game() {
           setLevel(6);
           break;
       }
-      setScore((prevScore) => { return prevScore+level*chancesLeft*100;});
+      setScore((prevScore) => { return prevScore+level*chancesLeft*timeLeft;});
       setGameStarted(true);
       setEnemies(generateEnemies(handleClickParent));
       setIsGuessed(Array(26).fill(false));
       setHiddenPhrase("");
       setChancesLeft(10);  
-      console.log(score); 
+      setTimeLeft(timeLimit); 
     }
   }
   },[endGameCondition]);
@@ -280,6 +290,7 @@ export default function Game() {
       </div>     
       <NewGame handleClick={handleClickNewGame} />
       <p>Score:{score}</p>
+      <p>Time:{timeLeft/1000}</p>
       {endGameCondition===EndGameCondition.Lose ? (<Lose />):(
       <>
       <Boss x={bossX} y={bossY} />
