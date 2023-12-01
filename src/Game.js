@@ -28,30 +28,37 @@ function isLetter(c) {
 }
 
 export default function Game() {
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const [gameStarted, setGameStarted] = useState(false);
-  const [enemies, setEnemies] = useState([]);
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // For easy look up
+  const [gameStarted, setGameStarted] = useState(false); // It'll be true after the game is started in order to controll when to generate enemies
+  const [enemies, setEnemies] = useState([]); // Our lovely enemies
   const maxHeight = 60; // Set your desired maximum height
-  const [bossX, setBossX] = useState();
-  const [bossY, setBossY] = useState(10);
-
+  const [bossX, setBossX] = useState(); // Boss x position
+  const [bossY, setBossY] = useState(10); // Boss y position
   const [isGuessed, setIsGuessed] = useState(Array(26).fill(false)); // if character A->Z is guessed
-  const [hiddenPhrase, setHiddenPhrase] = useState("");
-  const [phrasesLevel1, setPhrasesLevel1] = useState([]);
+  const [hiddenPhrase, setHiddenPhrase] = useState(""); // Unrevealed magic words to be guessed
+  // Phrases arrays for each level
+  const [phrasesLevel1, setPhrasesLevel1] = useState([]); 
   const [phrasesLevel2, setPhrasesLevel2] = useState([]);
   const [phrasesLevel3, setPhrasesLevel3] = useState([]);
   const [phrasesLevel4, setPhrasesLevel4] = useState([]);
   const [phrasesLevel5, setPhrasesLevel5] = useState([]);
   const [phrasesLevel6, setPhrasesLevel6] = useState([]);
+  // Level state to control difficulty of the game. Default: level 1
   const [level, setLevel] = useState(1);
+  // Magic words to defeat enemies
   const [answerPhrase, setAnswerPhrase] = useState("");
+  // Chances left
   const [chancesLeft, setChancesLeft] = useState(10);
+  // Win, Lose, or Playing for gaming control
   const [endGameCondition, setEndGameCondition] = useState("");
+  // Score now
   const [score, setScore] = useState(0);
-  const timeLimit = 1000 * 120; // 2 mins time limit for playing one round
+  // Time limit for one round of play
+  const timeLimit = 1000 * 120; // 2 mins
   const [timeLeft, setTimeLeft] = useState(timeLimit);
-  let generateEnemyInterval;
+  let generateEnemyInterval; // I need to declaire it here for not getting asynchronous bugs from states
 
+  // Function for end game condition check
   function endGameCheck() {
     if (chancesLeft != 0) {
       if (hiddenPhrase !== "" && hiddenPhrase === answerPhrase) {
