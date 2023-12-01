@@ -223,33 +223,14 @@ export default function Game() {
   useEffect(() => {
     if (gameStarted) {
       generateEnemyInterval = setInterval(() => {
-        const x = Math.floor(Math.random() * 90);
-        const typePool = [
-          "Alien",
-          "Alien",
-          "Alien",
-          "Alien",
-          "Bomb",
-          "Desitined Card",
-          "Alien",
-          "Alien",
-          "Alien",
-          "Alien",
-          "Alien",
-          "Alien",
-          "Alien",
-          "Bonus",
-        ];
-
-        let randomIndex = Math.floor(Math.random() * characters.length);
-        while (isGuessed[randomIndex] === true) {
-          randomIndex = Math.floor(Math.random() * characters.length);
-        }
-
-        let text = characters.charAt(randomIndex);
-        const type = typePool.at(Math.floor(Math.random() * typePool.length));
+        // Set x position of the Boss randomly
+        const x = Math.floor(Math.random() * 90); 
         setBossX(x);
-        randomIndex = Math.floor(Math.random() * enemies.length);
+        // Spawn enemies which are in the space yet(Not already been spawned).
+        let randomIndex = Math.floor(Math.random() * enemies.length);
+        while (enemies[randomIndex].x >= 0) {
+          randomIndex = Math.floor(Math.random() * enemies.length);
+        }
         setEnemies((prevEnemies) => {
           const updatedEnemies = [...prevEnemies];
           updatedEnemies[randomIndex].x = x;
