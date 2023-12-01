@@ -22,7 +22,7 @@ export default function Enemy({ index, x, y, type, text, handleClick }){
     
   return (
     <div className="enemy" style={style}>
-        <img src={imgSrc} onClick={(event) => handleClick(event, type, text)}/>
+        <img src={imgSrc} onClick={(event) => handleClick(event, type, text, index)}/>
         <div>{text}</div>    
     </div>
   );

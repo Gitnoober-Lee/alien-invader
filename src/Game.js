@@ -56,6 +56,8 @@ export default function Game() {
     if(chancesLeft!=0){
       if(hiddenPhrase!==""&&hiddenPhrase===answerPhrase){        
         return EndGameCondition.Win;
+      }else if(timeLeft<=0){
+        return EndGameCondition.Lose;
       }else{
         return EndGameCondition.Playing;
       }
@@ -78,7 +80,7 @@ export default function Game() {
   }
 
   // Event handler for clicking on Enemy components
-  function handleClickParent(event, type, text) {
+  function handleClickParent(event, type, text, index) {
     event.preventDefault(); // Prevent the default behavior of the click event     
    
     switch (type) {
@@ -98,15 +100,50 @@ export default function Game() {
         });
         break;
       case "Bonus":
-        //To be implemented
+        setChancesLeft((prevChancesLeft) => { return prevChancesLeft + 1; });
         break;
       case "Bomb":
-        //To be implemented
+        setChancesLeft((prevChancesLeft) => { return prevChancesLeft - 2; });
         break;
       case "Desitined Card":
         //To be implemented
+        const randomDraw = Math.floor(Math.random() * 5);
+        switch(randomDraw){
+          case 0: // Increase 2 chances
+            setChancesLeft((prevChancesLeft) => { return prevChancesLeft + 2; });
+            break;
+          case 1: // Reduce 2 chances
+            setChancesLeft((prevChancesLeft) => { return prevChancesLeft - 2; });
+            break;
+          case 2: //Increase 10 seconds
+            setTimeLeft((prevTimeLeft) => {
+              let updatedTimeLeft = prevTimeLeft;          
+              updatedTimeLeft+=10000;
+              return updatedTimeLeft;
+            });
+            break;
+          case 3: //Decrease 10 seconds
+            setTimeLeft((prevTimeLeft) => {
+              let updatedTimeLeft = prevTimeLeft;          
+              updatedTimeLeft-=10000;
+              return updatedTimeLeft;
+            });
+            break;
+          case 4: //Increase 10000 scores
+            setScore((prevScore) => { return prevScore+10000;});
+            break;
+        }
         break;
     }
+
+    // Disappear after clicking
+    setEnemies((prevEnemies) => {
+      const updatedEnemies = [...prevEnemies];          
+      updatedEnemies[index].x=-100;
+      updatedEnemies[index].y=10;
+      return updatedEnemies;
+    });     
+
   }
 
   // Use useEffect to update hiddenPhrase after isGuessed is updated
@@ -131,7 +168,7 @@ export default function Game() {
     if(endTmp!=endGameCondition){
       setEndGameCondition(endTmp); 
     }    
-  },[isGuessed, hiddenPhrase]);
+  },[isGuessed, hiddenPhrase, timeLeft]);
 
 
   //Get phrases from file based on levels (easy:1->hard:6)
@@ -202,10 +239,10 @@ export default function Game() {
       const updateTimeInterval = setInterval(() => {
         setTimeLeft((prevTimeLeft) => {
           let updatedTimeLeft = prevTimeLeft;          
-          updatedTimeLeft-=100;
+          updatedTimeLeft-=1000;
           return updatedTimeLeft;
         });
-      },100);
+      },1000);
 
       // Interval for updating the position of existing enemies every 36 milliseconds     
       const updatePositionInterval = setInterval(() => {   
