@@ -1,4 +1,4 @@
-import './BGM.css';
+import './css/BGM.css';
 import React, { useState, useEffect } from "react";
 import bgmLever1 from './musics/Allegretto.mp3';
 

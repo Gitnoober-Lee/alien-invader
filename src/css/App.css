@@ -8,13 +8,11 @@
   float: left;
   display: inline-block;
   position: relative;
-  background-image: url("https://th.bing.com/th/id/OIP.zNCZ7BtmuQ7V1yuODfs0sAHaJo?rs=1&pid=ImgDetMain");
-  background-repeat: no-repeat;
-  background-size:cover;
+  background-color: navajowhite;
   align-items: center;
   text-align: center;
   font-size: 3rem;
-  opacity: 0.8;
+  border-radius: 3%;
 }
 
 .col1 p {
@@ -30,6 +28,7 @@
   float: left;
   display: inline-block;
   position: relative;
+  border-radius: 3%;
 }
 
 .col3 {
@@ -39,6 +38,7 @@
   float: left;
   display: inline-block;
   position: relative;
+  border-radius: 3%;
 }
 
 
@@ -49,11 +49,6 @@
   text-align: center;  
   position: relative; 
   display: table;
-  background-image: url("https://th.bing.com/th/id/OIP.R8zAc4pCR6A4Y5IhmdXiVwHaEK?rs=1&pid=ImgDetMain");
-  background-repeat: no-repeat;
-  background-size:cover;
-  opacity: 0.4;
-  
 }
 
 .title p{ 
@@ -65,23 +60,19 @@
 }
 
 .game {
-  background-image: url("./images/AlienInvaderBackground.png");
-  background-repeat: no-repeat;
-  background-size: cover;
   height: 95vh;
 }
 
 .playerInput {
-  background-color: lightseagreen;
-  height: 5vh;
+  background-color: bisque;
+  height: 50vh;
+  border-radius: 10px;
 }
 
 .gameRecords {
-  background-image: url("./images/GiGi.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 95vh;
-  opacity: 0.4;
+  height: 50vh;
+  border-radius: 10px;
+  background-color: moccasin;
 }
 
 .down {
@@ -94,7 +85,7 @@ footer {
   bottom: 0;
   width: 100%;
   padding: 1px;
-  background-color: #333;
+  background-color: moccasin;
   color: #fff;
   text-align: center;
 }

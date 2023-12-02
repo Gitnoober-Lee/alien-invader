@@ -1,5 +1,9 @@
-import "./Chances.css";
+import "./css/Chances.css";
 
 export default function Chances({leftChance}) {  
-  return <div className="chances">Chances:{leftChance}</div>;  
+    return (
+        <div className="chances">
+          Chances:{leftChance}
+        </div>
+    )
 }

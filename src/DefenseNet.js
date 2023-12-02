@@ -1,4 +1,4 @@
-import "./DefenseNet.css";
+import "./css/DefenseNet.css";
 
 export default function DefenseNet({ y }) {
   const style = { top: `${y+5}vh`, position: "absolute" };

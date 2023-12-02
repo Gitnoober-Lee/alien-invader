@@ -1,4 +1,4 @@
-import './MagicWords.css'
+import './css/MagicWords.css'
 
 export default function MagicWords({answerPhrase,hiddenPhrase}) {
     return (

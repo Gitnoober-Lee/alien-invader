@@ -4,8 +4,8 @@
     margin-left: auto; 
     margin-right: auto; 
     display:inline;
-    background-color: aquamarine;
-    opacity: 0.4;    
+    background-color: navajowhite;
+    border-radius: 10px;
 }
 
 .magic-words p {
