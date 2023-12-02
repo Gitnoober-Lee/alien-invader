@@ -1,7 +1,15 @@
-.newGame {
+.newgame {
+    position: absolute;
+    top:30%;
     text-align: center;
-    height: 80px;
-    width: 80px;
-    background-color: burlywood;
-    border-radius: 10px;
+    width:100%;
 }
+
+.newgame img {
+    width: 10vh;
+    height: 10vh;
+    margin-left: auto;
+    margin-right:auto;
+    display: block;    
+}
+

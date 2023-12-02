@@ -1,98 +1,95 @@
-body {
+* {
   margin: 0;
-  padding: 0;
 }
 
-/*.col1 { */
-/*  width: 20%;*/
-/*  height: 100vh;*/
-/*  float: left;*/
-/*  display: inline-block;*/
-/*  !*position: relative;*!*/
-/*  background-color: navajowhite;*/
-/*  align-items: center;*/
-/*  text-align: center;*/
-/*  font-size: 3rem;*/
-/*  border-radius: 3%;*/
-/*}*/
+.col1 { 
+  width: 20%;
+  height: 100vh;
+  float: left;
+  display: inline-block;
+  position: relative;
+  background-color: navajowhite;
+  align-items: center;
+  text-align: center;
+  font-size: 3rem;
+  border-radius: 3%;
+}
 
+.col1 p {
+  position: relative;
+  top: 5vh;
+  left: 3vh;
+}
 
-/*.col1 p {*/
-/*  !*position: relative;*!*/
-/*  top: 5vh;*/
-/*  left: 3vh;*/
-/*}*/
+.col2 {
+  background-color: burlywood;
+  width: 60%;
+  height: 100vh;
+  float: left;
+  display: inline-block;
+  position: relative;
+  border-radius: 3%;
+}
 
-/*.col2 {*/
-/*  background-color: burlywood;*/
-/*  width: 60%;*/
-/*  height: 100vh;*/
-/*  float: left;*/
-/*  display: inline-block;*/
-/*  !*position: relative;*!*/
-/*  border-radius: 3%;*/
-/*}*/
-
-/*.col3 {*/
-/*  background-color: cornflowerblue;*/
-/*  width: 20%;*/
-/*  height: 100vh;*/
-/*  float: left;*/
-/*  display: inline-block;*/
-/*  !*position: relative;*!*/
-/*  border-radius: 3%;*/
-/*}*/
-
-/*.title {*/
-/*  height: 5vh;*/
-/*  width: 100%; */
-/*  text-align: center;  */
-/*  !*position: relative; *!*/
-/*  display: table;*/
-/*}*/
-
-/*.title p{ */
-/*  display: table-cell;*/
-/*  vertical-align: middle;*/
-/*  !*position: relative;*!*/
-/*  color:white;*/
-/*  font-size: xx-large;*/
-/*}*/
-
-/*.game {*/
-/*  height: 95vh;*/
-/*}*/
-
-/*.playerInput {*/
-/*  background-color: bisque;*/
-/*  height: 50vh;*/
-/*  border-radius: 10px;*/
-/*}*/
-
-/*.gameRecords {*/
-/*  height: 50vh;*/
-/*  border-radius: 10px;*/
-/*  background-color: moccasin;*/
-/*}*/
-
-/*.down {*/
-/*  !*position: relative;*!*/
-/*  !*top: 80%;*!*/
-/*}*/
-
-/*footer {*/
-/*  position: fixed;*/
-/*  bottom: 0;*/
-/*  width: 100%;*/
-/*  padding: 1px;*/
-/*  background-color: moccasin;*/
-/*  color: #fff;*/
-/*  text-align: center;*/
-/*}*/
-
-/*footer a img {*/
-/*  width: 5%;*/
-/*}*/
+.col3 {
+  background-color: cornflowerblue;
+  width: 20%;
+  height: 100vh;
+  float: left;
+  display: inline-block;
+  position: relative;
+  border-radius: 3%;
+}
 
 
 
+.title {
+  height: 5vh;
+  width: 100%; 
+  text-align: center;  
+  position: relative; 
+  display: table;
+}
+
+.title p{ 
+  display: table-cell;
+  vertical-align: middle;
+  position: relative;
+  color:white;
+  font-size: xx-large;
+}
+
+.game {
+  height: 95vh;
+}
+
+.playerInput {
+  background-color: bisque;
+  height: 50vh;
+  border-radius: 10px;
+}
+
+.gameRecords {
+  height: 50vh;
+  border-radius: 10px;
+  background-color: moccasin;
+}
+
+.down {
+  position: relative;
+  top: 80%;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 1px;
+  background-color: moccasin;
+  color: #fff;
+  text-align: center;
+}
+
+footer a img {
+  width: 5%;
+}
