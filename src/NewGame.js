@@ -1,4 +1,4 @@
-import "./NewGame.css";
+import "./css/NewGame.css";
 import playButton from "./images/playButton.png"
 
 export default function NewGame({ handleClick }) {

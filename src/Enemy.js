@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./Enemy.css";
+import "./css/Enemy.css";
 import slime from "./images/slime.png"
 import questionMark from "./images/question_mark.png"
 import bomb from "./images/bomb.png"

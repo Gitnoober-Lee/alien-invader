@@ -1,4 +1,4 @@
-import "./Game.css";
+import "./css/Game.css";
 import React, { useState, useEffect, useSound } from "react";
 import Boss from "./Boss";
 import Enemy from "./Enemy";
@@ -343,10 +343,6 @@ export default function Game() {
         <BGM />
       </div>
       <NewGame handleClick={handleClickNewGame} />
-      <p style={{ fontSize: "xx-large", position: "fixed" }}>Score:{score}</p>
-      <p style={{ fontSize: "xx-large", position: "fixed", top: "10vh" }}>
-        Time:{timeLeft / 1000} s
-      </p>
       {endGameCondition === EndGameCondition.Lose ? (
         <Lose />
       ) : (
@@ -370,7 +366,7 @@ export default function Game() {
               hiddenPhrase={hiddenPhrase}
             />
             <Chances leftChance={chancesLeft} />
-            <Shooter />
+            <Shooter score={score} time={timeLeft}/>
           </div>
         </>
       )}

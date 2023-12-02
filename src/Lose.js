@@ -1,4 +1,4 @@
-import "./Lose.css"
+import "./css/Lose.css"
 import youLoseImg from "./images/youLose.gif"
 
 export default function Lose() {  
