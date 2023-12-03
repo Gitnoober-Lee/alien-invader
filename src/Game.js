@@ -265,7 +265,7 @@ export default function Game({endGameCondition, setEndGameCondition, score, setS
                 ? 10
                 : enemy.x >= 0
                 ? enemy.y + 0.3
-                : enemy.y,
+                : enemy.y
           }))
         );
       }, 36);
@@ -335,9 +335,7 @@ export default function Game({endGameCondition, setEndGameCondition, score, setS
       }
     }
   }, [endGameCondition]);
-
-  // Filter out enemies that exceed the maximum height
-  const visibleEnemies = enemies.filter((enemy) => enemy.y <= maxHeight);
+ 
 
   // If the player loses the game, it'll show <Lose> only. Otherwise, it'll show all the other components when player is playing.
   return (
@@ -350,8 +348,9 @@ export default function Game({endGameCondition, setEndGameCondition, score, setS
         <Lose />
       ) : (
         <>
-          <Boss x={bossX} y={bossY}/>
-          {visibleEnemies.map((enemy) => (
+
+          <Boss x={bossX} y={bossY} />
+          {enemies.map((enemy) => (
             <Enemy
               key={enemy.key}
               index={enemy.key}
