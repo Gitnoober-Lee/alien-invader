@@ -1,10 +1,10 @@
 export default function generateEnemies(handleClickParent) {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
   const enemies = [];
-  const alienCount = 26 * 10;
-  const bonusCount = 6;
-  const bombCount = 10;
-  const desitinedCardCount = 6;
+  const alienCount = 26 * 30;
+  const bonusCount = 18;
+  const bombCount = 40;
+  const desitinedCardCount = 18;
   let sumCount = 0;
 
   for (let i = 0; i < alienCount; i++) {
