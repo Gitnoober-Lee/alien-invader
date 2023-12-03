@@ -16,6 +16,7 @@ import linesLevel4 from "./phrases/phrases_level4.txt";
 import linesLevel5 from "./phrases/phrases_level5.txt";
 import linesLevel6 from "./phrases/phrases_level6.txt";
 import generateEnemies from "./generateEnemies";
+import Bullets from "./Bullets";
 
 const EndGameCondition = {
   Win: "win",
@@ -368,6 +369,7 @@ export default function Game({endGameCondition, setEndGameCondition, score, setS
               hiddenPhrase={hiddenPhrase}
             />
             <Chances leftChance={chancesLeft} />
+            <Bullets />
             <Shooter score={score} time={timeLeft}/>
           </div>
         </>

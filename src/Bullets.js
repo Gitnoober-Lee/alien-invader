@@ -1,15 +1,40 @@
-import {useState} from "react";
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
-function Bullets() {
-    const [bullets, setBullets] = useState()
+const Bullet = ({ x, y: initialY, onBulletHit, index}) => {
+    const [y, setY] = useState(initialY);
 
-    function handleKeyPress(event) {
-        if (event.key === ' '){
-            const key = new Date().getTime().toString();
-            // setBullets();
+    useEffect(() => {
+        const bulletInterval = setInterval(() => {
+            setY((y) => Math.max(y - 50, 0));
+
+            // Check if the bullet hits the top of the screen
+            if (y <= 0) {
+                clearInterval(bulletInterval);
+                // onBulletHit(index);
+            }
+        }, 20);
+
+        return () => {
+            clearInterval(bulletInterval);
         }
-    }
-}
+    }, []);
 
+    const style = { left: `${x}%`, top: `${y}vh`, position: 'absolute'/*, "background-color":color */};
 
-export default Bullets
+    // bullet start at the bottom of the screen
+    return (
+
+        <motion.div
+            // initial={{ x: x, y: window.innerHeight }}
+            initial={{ x: x, y: initialY }}
+            animate={{ x: x, y: y }}
+            transition={{ duration: 0.3 }}
+            className="bullet"
+        >
+            Bullet
+        </motion.div>
+    );
+};
+
+export default Bullet;
