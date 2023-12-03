@@ -1,11 +1,18 @@
 import "./css/Boss.css";
 import BossImg from './images/Boss.png'
+import {motion} from "framer-motion";
 
-export default function Boss({ x, y }) {
-    const style = { left: `${x}%`, top: `${y}vh`, position: 'absolute' };
+export default function Boss({x}) {
+
     return (
-        <div className="boss" style={style}>
-            {/*<img src={BossImg} alt="boss"/>*/}
-        </div>
+        <motion.div
+            initial={{x: "50%"}}
+            animate={{x: `${x}vh`}}
+            transition={{duration: 0.5}}
+            className='boss'
+        >
+
+        </motion.div>
     )
+
 }

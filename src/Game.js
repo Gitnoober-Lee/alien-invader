@@ -24,7 +24,7 @@ const EndGameCondition = {
 };
 
 function isLetter(c) {
-  return c.toLowerCase() != c.toUpperCase();
+  return c.toLowerCase() !== c.toUpperCase();
 }
 
 export default function Game() {
@@ -60,7 +60,7 @@ export default function Game() {
 
   // Function for end game condition check
   function endGameCheck() {
-    if (chancesLeft != 0) {
+    if (chancesLeft !== 0) {
       if (hiddenPhrase !== "" && hiddenPhrase === answerPhrase) {
         return EndGameCondition.Win;
       } else if (timeLeft <= 0) {
@@ -181,7 +181,7 @@ export default function Game() {
   // Check end game condition after setting hiddenPhrase everytime
   useEffect(() => {
     const endTmp = endGameCheck(hiddenPhrase, answerPhrase);
-    if (endTmp != endGameCondition) {
+    if (endTmp !== endGameCondition) {
       setEndGameCondition(endTmp);
     }
   }, [isGuessed, hiddenPhrase, timeLeft]);
@@ -347,7 +347,7 @@ export default function Game() {
         <Lose />
       ) : (
         <>
-          <Boss x={bossX} y={bossY} />
+          <Boss x={bossX} y={bossY}/>
           {visibleEnemies.map((enemy) => (
             <Enemy
               key={enemy.key}
