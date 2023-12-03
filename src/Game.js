@@ -27,7 +27,7 @@ function isLetter(c) {
   return c.toLowerCase() !== c.toUpperCase();
 }
 
-export default function Game() {
+export default function Game({endGameCondition, setEndGameCondition, score, setScore, setSaved}) {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // For easy look up
   const [gameStarted, setGameStarted] = useState(false); // It'll be true after the game is started in order to controll when to generate enemies
   const [enemies, setEnemies] = useState([]); // Our lovely enemies
@@ -48,11 +48,7 @@ export default function Game() {
   // Magic words to defeat enemies
   const [answerPhrase, setAnswerPhrase] = useState("");
   // Chances left
-  const [chancesLeft, setChancesLeft] = useState(10);
-  // Win, Lose, or Playing for gaming control
-  const [endGameCondition, setEndGameCondition] = useState("");
-  // Score now
-  const [score, setScore] = useState(0);
+  const [chancesLeft, setChancesLeft] = useState(10);   
   // Time limit for one round of play
   const timeLimit = 1000 * 120; // 2 mins
   const [timeLeft, setTimeLeft] = useState(timeLimit);
@@ -60,7 +56,7 @@ export default function Game() {
 
   // Function for end game condition check
   function endGameCheck() {
-    if (chancesLeft !== 0) {
+    if (chancesLeft > 0) {
       if (hiddenPhrase !== "" && hiddenPhrase === answerPhrase) {
         return EndGameCondition.Win;
       } else if (timeLeft <= 0) {
@@ -77,19 +73,23 @@ export default function Game() {
   function handleClickNewGame(event) {
     event.preventDefault(); // Prevent the default behavior of the click event
     let randomIndex = Math.floor(Math.random() * phrasesLevel1.length);
-    setAnswerPhrase(phrasesLevel1[randomIndex]);
-    setGameStarted(true);
-    setEnemies(generateEnemies(handleClickParent));
-    setIsGuessed(Array(26).fill(false));
+    setAnswerPhrase(phrasesLevel1[randomIndex]);    
+    setGameStarted(true);    
+    setIsGuessed(Array(26).fill(false));  
     setHiddenPhrase("");
     setChancesLeft(10);
     setTimeLeft(timeLimit);
+    setSaved(false);
+    setScore(0);    
+    setEnemies(generateEnemies(handleClickParent));
   }
+
+  
 
   // Event handler for clicking on Enemy components
   function handleClickParent(event, type, text, index) {
     event.preventDefault(); // Prevent the default behavior of the click event
-
+ 
     switch (type) {
       // If click on a Alien, then update isGuessed and chancesLeft depending on which enemy got hit
       case "Alien":
@@ -100,7 +100,7 @@ export default function Game() {
         });
         setChancesLeft((prevChancesLeft) => {
           // Ensure chances are only decreased if the character is not in the answerPhrase
-          if (answerPhrase.toUpperCase().indexOf(text.toUpperCase()) === -1) {
+          if (answerPhrase.toUpperCase().indexOf(text.toUpperCase()) === -1) {         
             return prevChancesLeft - 1;
           }
           return prevChancesLeft;
@@ -144,9 +144,9 @@ export default function Game() {
               return updatedTimeLeft;
             });
             break;
-          case 4: //Increase 10000 scores
+          case 4: //Increase 3000 scores
             setScore((prevScore) => {
-              return prevScore + 10000;
+              return prevScore + 3000;
             });
             break;
         }
@@ -285,7 +285,9 @@ export default function Game() {
       if (endGameCondition === EndGameCondition.Lose) {
         setGameStarted(false);
         setEnemies(generateEnemies(handleClickParent));
-        setScore(score + 0);
+        setScore((prevScore) => {          
+          return prevScore + timeLeft/100 + chancesLeft*10;
+        });
       } else if (endGameCondition === EndGameCondition.Win) {
         let randomIndex;
         switch (level) {
@@ -321,7 +323,7 @@ export default function Game() {
             break;
         }
         setScore((prevScore) => {
-          return prevScore + level * chancesLeft * timeLeft;
+          return prevScore + level * chancesLeft*chancesLeft * 100 + timeLeft /50;
         });
         setGameStarted(true);
         setEnemies(generateEnemies(handleClickParent));
@@ -329,6 +331,7 @@ export default function Game() {
         setHiddenPhrase("");
         setChancesLeft(10);
         setTimeLeft(timeLimit);
+        console.log("Level:" + level);
       }
     }
   }, [endGameCondition]);
@@ -356,7 +359,7 @@ export default function Game() {
               y={enemy.y}
               type={enemy.type}
               text={enemy.text}
-              handleClick={enemy.handleClick}
+              handleClick={handleClickParent}
             />
           ))}
           <DefenseNet y={maxHeight} />

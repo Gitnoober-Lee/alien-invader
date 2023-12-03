@@ -5,6 +5,11 @@ import {useEffect, useState} from "react";
 // return records fetched from game server
 // userId send in from parent component
 function RecordList({userId, userName, score, end, saved, setSaved}) {
+    const EndGameCondition = {
+        Win: "win",
+        Lose: "lose",
+        Playing: "playing",
+      };
     const [records, setRecords] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
     const [pageNum, setPageNum] = useState(1);
@@ -125,7 +130,7 @@ function RecordList({userId, userName, score, end, saved, setSaved}) {
     return (
         <div>
             <div>
-                {(end === true && saved === false)
+                {(end === EndGameCondition.Lose && saved === false)
                     ? <button className='button' onClick={saveRecord}>Save Record</button>
                     : <></>
                 }
