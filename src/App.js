@@ -9,6 +9,7 @@ import Welcome from "./WelcomePage";
 import "./css/WelcomePage.css";
 import user from "./User";
 import background from "./video/alien-bg1.mp4";
+import "./css/WelcomePage.css"
 
 function App() {
     const [userId, setUserId] = useState("");
@@ -19,28 +20,28 @@ function App() {
     const [score, setScore] = useState(0);
     const [saved, setSaved] = useState(false);
     const [start, setStart] = useState(false);
+    const [welcome, setWelcome] = useState(false);
 
-    // useEffect(() => {
-    //     alert('start: ' + start);
-    // }, [start]);
-
-    if (!start) {
-        // alert('flag' + flag);
-        // return (<Welcome setStart={setStart}/>);
-        return (
-            <div>
-                <video className='back-video' width='100%' autoPlay muted playsInline loop>
-                    <source src={background} type="video/mp4"/>
-                </video>
-                <div className='wel-content'>
-                    <h1>Alien Invader</h1>
-                    <button className='wel-btn' onClick
-                        ={event => setStart(true)}>Start Fight
-                    </button>
-                </div>
-            </div>
-        )
+    if (!userId) {
+        return <Login onLogin={setUserId}/>;
     } else {
+        if (!start) {
+            return <Welcome setStart={setStart}/>;
+            // return (
+            //     <div>
+            //         <video className='back-video' width='100%' autoPlay muted playsInline loop>
+            //             <source src={background} type="video/mp4"/>
+            //         </video>
+            //         <div className='wel-content'>
+            //             <h1>Alien Invader</h1>
+            //             <button className='wel-btn' onClick
+            //                 ={event => setStart(true)}>Start Fight
+            //             </button>
+            //         </div>
+            //     </div>
+            // )
+        }
+
         return (
             userId ?
                 <div className="App">
@@ -77,7 +78,7 @@ function App() {
                             <img src={coffee} alt="coffee"/>
                         </a>
                     </footer>
-                </div> : <Login onLogin={setUserId} />
+                </div> : <Login onLogin={setUserId}/>
         )
     }
 }

@@ -38,7 +38,6 @@ function Login({onLogin, setStart}) {
       console.log("User is signed in:", user);
       // setUserId(user.uid)
       onLogin(user.uid)
-      // setStart(true);
     } else {
       // No user is signed in.
       console.log("No user is signed in.");
