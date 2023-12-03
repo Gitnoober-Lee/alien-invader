@@ -1,40 +1,51 @@
 import "./css/Shooter.css";
-import React, {useEffect, useState} from "react";
-import { motion } from "framer-motion"
+import React, { useEffect, useState, useRef } from "react";
+import { motion } from "framer-motion";
 
-function Shooter({score, time}) {
+function Shooter({ score, time }) {
+  const [x, setX] = useState(50);
+  const [shooterWidth, setShooterWidth] = useState(0);
+  const containerRef = useRef(null);
+  const shooterRef = useRef(null);
+  const step = 50; // Adjust the step value as needed
 
-    const [x, setX] = useState(window.innerWidth / 2);
+  function handleKeyDown(event) {
+    const key = event.keyCode;
+    const containerWidth = containerRef.current.clientWidth;
+    if (key === 37) {
+      setX((x) => Math.max(x - step, 0));
+    } else if (key === 39) {
+      setX((x) => Math.min(x + step, containerWidth - shooterWidth)); // Adjust the subtracted value as needed
+    }    
+  }
 
-    // using max, min to keep the component within boundary
-    function handleKeyDown(event) {
-        const key = event.keyCode;
-        if (key === 37) {
-            setX((x)=> Math.max(x - 100, 0));
-        } else if (key === 39){
-            setX((x)=> Math.min(x + 100, window.innerWidth - 800));
-        }
-    }
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
 
-    useEffect(() => {
-        window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [shooterWidth]);
 
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        }
-    }, []);
+  useEffect(() => {
+    setShooterWidth(shooterRef.current.getBoundingClientRect().width);
+    console.log(x);
+  }, [x]);
 
-
-    return (
-        <motion.div
-            initial={{x: x}}
-            animate={{x: x+"%"}}
-            transition={{ duration: 0.2 }}
-            className="shooter"
-        >
-            <div>{score}</div>
-            <div>{time/1000}</div>
-        </motion.div>
-    )
+  return (
+    <div className="shooter-container" ref={containerRef}>
+      <motion.div
+        initial={{ x: x }}
+        animate={{ x: x }}
+        transition={{ duration: 0.2 }}
+        className="shooter"
+        ref={shooterRef}
+      >
+        <div>{score}</div>
+        <div>{time / 1000}</div>
+      </motion.div>
+    </div>
+  );
 }
+
 export default Shooter;
