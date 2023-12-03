@@ -9,6 +9,7 @@ import Welcome from "./WelcomePage";
 import "./css/WelcomePage.css";
 import user from "./User";
 import background from "./video/alien-bg1.mp4";
+import "./css/WelcomePage.css"
 
 function App() {
     const [userId, setUserId] = useState("");
