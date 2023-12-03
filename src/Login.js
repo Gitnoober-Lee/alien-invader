@@ -4,7 +4,7 @@ import './css/App.css';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
 
-function Login({onLogin}) {
+function Login({onLogin, setStart}) {
 
   // Your web app's Firebase configuration
   const firebaseConfig = {
@@ -38,6 +38,7 @@ function Login({onLogin}) {
       console.log("User is signed in:", user);
       // setUserId(user.uid)
       onLogin(user.uid)
+      // setStart(true);
     } else {
       // No user is signed in.
       console.log("No user is signed in.");
