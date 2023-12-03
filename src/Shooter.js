@@ -33,7 +33,7 @@ function Shooter({score, time}) {
             className="shooter"
         >
             <div>{score}</div>
-            <div>{time}</div>
+            <div>{time/1000}</div>
         </motion.div>
     )
 }
