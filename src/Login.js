@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './css/App.css';
-
+import Button from '@mui/material/Button';
+import {teal, purple} from '@mui/material/colors';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
 
@@ -15,6 +17,15 @@ function Login({onLogin, setStart}) {
     messagingSenderId: "351353651255",
     appId: "1:351353651255:web:eebc74b16d376a1ba6ffb2",
   };
+
+  const theme = createTheme({
+    palette: {
+      primary:{
+        main: '#00695c',
+      },
+      secondary: purple,
+    },
+  });
 
   initializeApp(firebaseConfig);
 
@@ -46,8 +57,10 @@ function Login({onLogin, setStart}) {
 
 
   return (
-      <div>
-        <button onClick={signInWithGoogle} >Sign in with Google</button>
+      <div className='Google-login'>
+        <ThemeProvider theme={theme}>
+            <Button className='Google-login-btn' variant="contained" color='primary' onClick={signInWithGoogle}>Sign in with Google</Button>;
+        </ThemeProvider>
       </div>
   );
 }

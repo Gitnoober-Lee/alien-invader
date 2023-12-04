@@ -5,16 +5,17 @@
 
 * button {
     color: black;
+    border-radius: 10px;
 }
 
-/*.App{*/
-/*    background-image: url("./images/Xenomorph-back0.jpg");*/
-/*}*/
+.Google-login{
+    position: absolute;
+    top: 40%;
+    left: 43%;
+}
+
 .Xeno-back {
     position: absolute;
-    /*right: 0;*/
-    /*left: 0;*/
-    /*bottom: 0;*/
     z-index: -1;
     width: 100%;
     height: 100%;
