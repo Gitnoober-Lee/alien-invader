@@ -7,9 +7,8 @@ import {useEffect, useState} from "react";
 import User from "./User";
 import Welcome from "./WelcomePage";
 import "./css/WelcomePage.css";
-import user from "./User";
-import background from "./video/alien-bg1.mp4";
 import "./css/WelcomePage.css"
+import Xeno from "./images/Xenomorph-back0.jpg"
 
 function App() {
     const [userId, setUserId] = useState("");
@@ -20,7 +19,6 @@ function App() {
     const [score, setScore] = useState(0);
     const [saved, setSaved] = useState(false);
     const [start, setStart] = useState(false);
-    const [welcome, setWelcome] = useState(false);
 
     if (!userId) {
         return <Login onLogin={setUserId}/>;
@@ -31,6 +29,7 @@ function App() {
         return (
             userId ?
                 <div className="App">
+                    <img className='Xeno-back' src={Xeno} alt='Xenomorph'/>
                     <div className="col1">
                         <div className="sideBar">
                             <p>How to play:</p>

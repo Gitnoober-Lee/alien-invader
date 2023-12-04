@@ -2,6 +2,7 @@ import "./css/Shooter.css";
 import React, { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import Bullet from "./Bullets";
+import barbette from "./images/barbette.png";
 
 function Shooter({ score, time }) {
   const [x, setX] = useState(50);
@@ -64,6 +65,7 @@ function Shooter({ score, time }) {
         className="shooter"
         ref={shooterRef}
       >
+        <img className='barbette' src={barbette} alt='barbette'/>
         <div>{score}</div>
         <div>{time / 1000}</div>
       </motion.div>
