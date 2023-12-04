@@ -7,6 +7,7 @@
     color: black;
 }
 
+
 /*.App{*/
 /*    background-image: url("./images/Xenomorph-back0.jpg");*/
 /*}*/
@@ -108,7 +109,7 @@
 
 .down {
     position: relative;
-    top: 60%;
+    top: 70%;
 }
 
 footer {
