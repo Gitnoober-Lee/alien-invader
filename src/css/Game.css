@@ -1,1 +1,9 @@
-
+.newgame-container {
+    position: absolute;
+    display:inline-block;
+    top:65%;
+    width:100%;
+    align-content: center;
+    text-align: center;
+    font-size: xx-large;
+}

@@ -28,7 +28,7 @@ function isLetter(c) {
   return c.toLowerCase() !== c.toUpperCase();
 }
 
-export default function Game({endGameCondition, setEndGameCondition, score, setScore, setSaved}) {
+export default function Game({answerPhrase, setAnswerPhrase, hiddenPhrase, setHiddenPhrase, endGameCondition, setEndGameCondition, score, setScore, setSaved}) {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // For easy look up
   const [gameStarted, setGameStarted] = useState(false); // It'll be true after the game is started in order to controll when to generate enemies
   const [enemies, setEnemies] = useState([]); // Our lovely enemies
@@ -36,7 +36,7 @@ export default function Game({endGameCondition, setEndGameCondition, score, setS
   const [bossX, setBossX] = useState(); // Boss x position
   const [bossY, setBossY] = useState(10); // Boss y position
   const [isGuessed, setIsGuessed] = useState(Array(26).fill(false)); // if character A->Z is guessed
-  const [hiddenPhrase, setHiddenPhrase] = useState(""); // Unrevealed magic words to be guessed
+  
   // Phrases arrays for each level
   const [phrasesLevel1, setPhrasesLevel1] = useState([]); 
   const [phrasesLevel2, setPhrasesLevel2] = useState([]);
@@ -45,9 +45,8 @@ export default function Game({endGameCondition, setEndGameCondition, score, setS
   const [phrasesLevel5, setPhrasesLevel5] = useState([]);
   const [phrasesLevel6, setPhrasesLevel6] = useState([]);
   // Level state to control difficulty of the game. Default: level 1
-  const [level, setLevel] = useState(1);
-  // Magic words to defeat enemies
-  const [answerPhrase, setAnswerPhrase] = useState("");
+  const [level, setLevel] = useState(1);  // Magic words to defeat enemies
+  
   // Chances left
   const [chancesLeft, setChancesLeft] = useState(10);   
   // Time limit for one round of play
@@ -343,8 +342,7 @@ export default function Game({endGameCondition, setEndGameCondition, score, setS
     <>
       <div className="up">
         <BGM />
-      </div>
-      <NewGame handleClick={handleClickNewGame} />
+      </div>      
       {endGameCondition === EndGameCondition.Lose ? (
         <Lose />
       ) : (
@@ -363,17 +361,16 @@ export default function Game({endGameCondition, setEndGameCondition, score, setS
             />
           ))}
           <DefenseNet y={maxHeight} />
-          <div className="down">
-            <MagicWords
-              answerPhrase={answerPhrase}
-              hiddenPhrase={hiddenPhrase}
-            />
+          <div className="down">           
             <Chances leftChance={chancesLeft} />
             <Bullets />
             <Shooter score={score} time={timeLeft}/>
           </div>
         </>
       )}
+      <div className="newgame-container">
+        <NewGame handleClick={handleClickNewGame} />
+      </div>
     </>
   );
 }

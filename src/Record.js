@@ -1,6 +1,25 @@
+import * as React from 'react';
 import axios from "axios"
 import {useEffect, useState} from "react";
+import Button from '@mui/material/Button';
+import { createTheme } from '@mui/material/styles';
 
+const theme = createTheme({
+    palette: {
+      primary: {
+        light: '#757ce8',
+        main: '#3f50b5',
+        dark: '#002884',
+        contrastText: '#fff',
+      },
+      secondary: {
+        light: '#ff7961',
+        main: '#f44336',
+        dark: '#ba000d',
+        contrastText: '#000',
+      },
+    },
+  });
 
 // return records fetched from game server
 // userId send in from parent component
@@ -124,20 +143,20 @@ function RecordList({userId, userName, score, end, saved, setSaved}) {
             })
     }
 
-    // save button shows up when game is finished
+    // save Button shows up when game is finished
     // inline style display: flex can make multiple lines into one
     // user can only delete his own record
     return (
         <div>
             <div>
                 {(end === EndGameCondition.Lose && saved === false)
-                    ? <button className='button' onClick={saveRecord}>Save Record</button>
+                    ? <Button variant="contained" color="primary" className='Button' onClick={saveRecord}>Save Record</Button>
                     : <></>
                 }
             </div>
             <div>
-                <button className='button' onClick={displayAllRecords}>All Records</button>
-                <button className='button' onClick={displayMyRecords}>My Records</button>
+                <Button variant="contained" color="primary" className='Button' onClick={displayAllRecords}>All Records</Button>
+                <Button variant="contained" color="primary" className='Button' onClick={displayMyRecords}>My Records</Button>
 
                 {records.length !== 0
                     ?   <table className='RecordList'>
@@ -148,7 +167,7 @@ function RecordList({userId, userName, score, end, saved, setSaved}) {
                                             <Record record={record} key={record.id}/>
 
                                             {tap === "my"
-                                                ? <td><button className='button' onClick={() => deleteRecord(record.id)}>Delete</button></td>
+                                                ? <td><Button variant="contained" color="primary" className='Button' onClick={() => deleteRecord(record.id)}>Delete</Button></td>
                                                 : ""
                                             }
 
@@ -159,12 +178,12 @@ function RecordList({userId, userName, score, end, saved, setSaved}) {
                     :  ""
                 }
 
-                {pageNum > 1
-                    ? <button className='button' onClick={prevPage}>Prev</button>
+                {pageNum > 1                    
+                    ? <Button variant="contained" color="primary" className='Button' onClick={prevPage}>Prev</Button>
                     : <></>
                 }
                 {pageNum < totalPages
-                    ?   <button className='button' onClick={nextPage}>Next</button>
+                    ?   <Button variant="contained" color="primary" className='Button' onClick={nextPage}>Next</Button>
                     : <></>
                 }
             </div>

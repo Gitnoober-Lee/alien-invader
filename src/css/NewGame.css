@@ -1,15 +1,9 @@
 .newgame {
-    position: absolute;
+    position: relative;
     top:30%;
     text-align: center;
     width:100%;
+
 }
 
-.newgame img {
-    width: 10vh;
-    height: 10vh;
-    margin-left: auto;
-    margin-right:auto;
-    display: block;    
-}
 

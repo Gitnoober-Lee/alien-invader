@@ -1,6 +1,8 @@
 import './css/BGM.css';
 import React, { useState, useEffect } from "react";
 import bgmLever1 from './musics/Allegretto.mp3';
+import Button from '@mui/material/Button';
+import { createTheme } from '@mui/material/styles';
 
 const useAudio = url => {
   const [audio] = useState(new Audio(bgmLever1));

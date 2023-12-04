@@ -28,15 +28,25 @@
     display: inline-block;
     position: relative;
     /*background-color: navajowhite;*/
-    align-items: center;
-    text-align: center;
+    /* align-items: center;
+    text-align: center; */
     font-size: 3rem;
-    border-radius: 3%;
+    border-style: solid;
+    border-radius: 5px;
+    box-sizing: border-box;
+    border-width: 2px;
 }
 
-.col1 p {
+.col1 .magicWords{
+  padding: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  border-width: 2px;
+}
+
+.col1 .sideBar {
     position: relative;
-    top: 5vh;
+    top: 50vh;
     left: 3vh;
 }
 
@@ -57,7 +67,10 @@
     float: left;
     display: inline-block;
     position: relative;
-    border-radius: 3%;
+    border-style: solid ;
+    border-radius: 5px;
+    box-sizing: border-box;
+    border-width: 2px;
 }
 
 
