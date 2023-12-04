@@ -1,95 +1,113 @@
 * {
-  margin: 0;
+    margin: 0;
+    color: white;
 }
 
-.col1 { 
-  width: 20%;
-  height: 100vh;
-  float: left;
-  display: inline-block;
-  position: relative;
-  background-color: navajowhite;
-  align-items: center;
-  text-align: center;
-  font-size: 3rem;
-  border-radius: 3%;
+* button {
+    color: black;
+}
+
+/*.App{*/
+/*    background-image: url("./images/Xenomorph-back0.jpg");*/
+/*}*/
+.Xeno-back {
+    position: absolute;
+    /*right: 0;*/
+    /*left: 0;*/
+    /*bottom: 0;*/
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.col1 {
+    width: 20%;
+    height: 100vh;
+    float: left;
+    display: inline-block;
+    position: relative;
+    /*background-color: navajowhite;*/
+    align-items: center;
+    text-align: center;
+    font-size: 3rem;
+    border-radius: 3%;
 }
 
 .col1 p {
-  position: relative;
-  top: 5vh;
-  left: 3vh;
+    position: relative;
+    top: 5vh;
+    left: 3vh;
 }
 
 .col2 {
-  background-color: burlywood;
-  width: 60%;
-  height: 100vh;
-  float: left;
-  display: inline-block;
-  position: relative;
-  border-radius: 3%;
+    /*background-color: burlywood;*/
+    width: 60%;
+    height: 100vh;
+    float: left;
+    display: inline-block;
+    position: relative;
+    border-radius: 3%;
 }
 
 .col3 {
-  background-color: cornflowerblue;
-  width: 20%;
-  height: 100vh;
-  float: left;
-  display: inline-block;
-  position: relative;
-  border-radius: 3%;
+    /*background-color: cornflowerblue;*/
+    width: 20%;
+    height: 100vh;
+    float: left;
+    display: inline-block;
+    position: relative;
+    border-radius: 3%;
 }
-
 
 
 .title {
-  height: 5vh;
-  width: 100%; 
-  text-align: center;  
-  position: relative; 
-  display: table;
+    height: 5vh;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    display: table;
 }
 
-.title p{ 
-  display: table-cell;
-  vertical-align: middle;
-  position: relative;
-  color:white;
-  font-size: xx-large;
+.title p {
+    display: table-cell;
+    vertical-align: middle;
+    position: relative;
+    color: white;
+    font-size: xx-large;
 }
 
 .game {
-  height: 95vh;
+    height: 95vh;
 }
 
 .playerInput {
-  background-color: bisque;
-  height: 50vh;
-  border-radius: 10px;
+    /*background-color: bisque;*/
+    height: 50vh;
+    border-radius: 10px;
 }
 
 .gameRecords {
-  height: 50vh;
-  border-radius: 10px;
-  background-color: moccasin;
+    height: 50vh;
+    border-radius: 10px;
+    /*background-color: moccasin;*/
 }
 
 .down {
-  position: relative;
-  top: 60%;
+    position: relative;
+    top: 60%;
 }
 
 footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  padding: 1px;
-  background-color: moccasin;
-  color: #fff;
-  text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 1px;
+    /*background-color: moccasin;*/
+    color: #fff;
+    text-align: center;
 }
 
 footer a img {
-  width: 5%;
+    width: 5%;
 }

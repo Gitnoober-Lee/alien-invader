@@ -1,13 +1,18 @@
 .shooter {
     width: 10vh;
     height: 10vh;
-    background-color: cadetblue;
-    border-radius: 50%;
-    border-style: solid;
+    /*background-color: cadetblue;*/
+    /*border-radius: 50%;*/
+    /*border-style: solid;*/
     font-size: 18px;
     text-align: center;
     /*display: flex;*/
     /*vertical-align: middle;*/
     justify-content: center;
     align-items: center;
+}
+
+.barbette {
+    width: 10vh;
+    height: 10vh;
 }
