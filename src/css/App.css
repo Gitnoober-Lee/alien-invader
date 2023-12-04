@@ -8,6 +8,13 @@
     border-radius: 10px;
 }
 
+.Google-icon{
+    position: absolute;
+    top: 15%;
+    left: 34%;
+    width: 500px;
+}
+
 .Google-login{
     position: absolute;
     top: 40%;

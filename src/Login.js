@@ -5,6 +5,7 @@ import {teal, purple} from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
+import google from './images/Google-icon.jpg';
 
 function Login({onLogin, setStart}) {
 
@@ -21,7 +22,7 @@ function Login({onLogin, setStart}) {
   const theme = createTheme({
     palette: {
       primary:{
-        main: '#00695c',
+        main: '#1565c0',
       },
       secondary: purple,
     },
@@ -55,12 +56,14 @@ function Login({onLogin, setStart}) {
     }
   });
 
-
   return (
-      <div className='Google-login'>
-        <ThemeProvider theme={theme}>
-            <Button className='Google-login-btn' variant="contained" color='primary' onClick={signInWithGoogle}>Sign in with Google</Button>;
-        </ThemeProvider>
+      <div>
+        <img className='Google-icon' src={google} alt='google icon'/>
+        <div className='Google-login'>
+          <ThemeProvider theme={theme}>
+              <Button className='Google-login-btn' variant="contained" color='primary' onClick={signInWithGoogle}>Sign in with Google</Button>;
+          </ThemeProvider>
+        </div>
       </div>
   );
 }
